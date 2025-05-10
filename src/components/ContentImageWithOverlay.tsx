@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, Image as ImageIcon } from 'lucide-react';
+import { Loader2, RefreshCw, Image as ImageIcon } from 'lucide-react';
 import { GeneratedImage } from '@/utils/imageGenerator';
 
 interface ContentImageWithOverlayProps {
@@ -28,15 +28,22 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
           <img 
             src={generatedImage.imageUrl} 
             alt={title}
-            className="w-full h-auto object-cover rounded-md"
+            className="w-full h-64 object-cover rounded-md"
+            onError={(e) => {
+              // If image fails to load, set a fallback image
+              const target = e.target as HTMLImageElement;
+              console.log("Image failed to load, using fallback");
+              target.src = `https://source.unsplash.com/featured/?social-media&sig=${Date.now()}`;
+              target.onerror = null; // Prevent infinite loop if fallback also fails
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 flex flex-col justify-end p-4">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80 flex flex-col justify-end p-4">
             <h3 className="text-white font-bold text-lg md:text-xl">{title}</h3>
-            <p className="text-white/90 text-sm mt-1">{generatedImage.promptText}</p>
+            <p className="text-white/90 text-sm mt-1 line-clamp-2">{description}</p>
           </div>
         </div>
       ) : (
-        <div className="w-full max-w-md h-48 bg-gray-100 rounded-md flex flex-col items-center justify-center">
+        <div className="w-full max-w-md h-64 bg-gray-100 rounded-md flex flex-col items-center justify-center">
           <ImageIcon className="h-10 w-10 text-gray-400" />
           <p className="text-sm text-gray-500 mt-2">No image generated yet</p>
         </div>
@@ -54,8 +61,17 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
           </>
         ) : (
           <>
-            <ImageIcon className="mr-2 h-4 w-4" />
-            {generatedImage ? "Regenerate Image" : "Generate Image"}
+            {generatedImage ? (
+              <>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Regenerate Image
+              </>
+            ) : (
+              <>
+                <ImageIcon className="mr-2 h-4 w-4" />
+                Generate Image
+              </>
+            )}
           </>
         )}
       </Button>

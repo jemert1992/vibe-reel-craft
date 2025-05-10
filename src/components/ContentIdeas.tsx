@@ -32,11 +32,16 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
     try {
       setGeneratingImageForId(idea.id);
       
-      // Generate a prompt for the image based on the idea details
-      const imagePrompt = `${idea.title} - ${idea.niche} ${idea.type} content for ${
-        idea.platform === 'both' ? 'Instagram Reels and TikTok' : 
+      // Generate a more detailed prompt for better image relevance
+      let imagePrompt = "";
+      
+      // Format: "Title - Description for [Platform] as [ContentType] post about [Niche]"
+      imagePrompt = `${idea.title} - ${idea.niche} content for ${
+        idea.platform === 'both' ? 'Instagram and TikTok' : 
         idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'
-      }`;
+      } as a ${idea.type} post`;
+      
+      console.log("Generating image with prompt:", imagePrompt);
       
       const generatedImage = await generateImageWithPrompt(imagePrompt);
       
