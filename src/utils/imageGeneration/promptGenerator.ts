@@ -51,11 +51,12 @@ export function generateDetailedPrompt(promptData: {
     .split('')
     .reduce((acc, char) => acc + char.charCodeAt(0), 0) % 10000;
   
-  // Use provided image prompt if available, otherwise craft detailed prompt for DALL-E
-  let detailedPrompt = imagePrompt || `${visualApproach}Create a high-quality vertical format image (9:16 ratio) for a ${isVideo ? 'video thumbnail' : 'social media post'} about "${basePrompt}". 
+  // Enhanced prompt for simpler, more visually focused content
+  let detailedPrompt = imagePrompt || `${visualApproach}Create a high-quality vertical format image (9:16 ratio) with a SINGLE focal point for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'} about "${basePrompt}".
 Style: ${contentStyleValue}, ${platformStyleValue}.
-Make it visually striking with high contrast and dynamic composition.
-Designed for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'}.
+The image should have ONE clear visual subject, vibrant colors, and a clean background.
+Make it visually striking with high contrast and dramatic lighting to maximize engagement.
+Ensure there's space in the top third for text overlay.
 The image should clearly communicate the concept without requiring text explanation.
 DO NOT include any text in the image itself.`;
 

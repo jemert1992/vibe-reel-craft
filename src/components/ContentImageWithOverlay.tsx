@@ -101,18 +101,20 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
             }}
           />
           
-          {/* Text overlay with platform-appropriate styling - ENHANCED */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80 flex flex-col justify-end p-4">
-            {/* Bold, eye-catching text overlay - Positioned more prominently */}
-            <div className="absolute top-1/2 transform -translate-y-1/2 left-0 w-full px-4 text-center">
-              <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words">
+          {/* Enhanced text overlay styling for better visibility and impact */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 flex flex-col justify-between p-4">
+            {/* Bold, eye-catching text overlay - Positioned at the top for better visibility */}
+            <div className="w-full px-2 pt-2 text-center">
+              <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words bg-black/30 py-1 px-2 rounded-md inline-block">
                 {displayTextOverlay}
               </h2>
             </div>
             
-            {/* Title and description now visually separated from the overlay text */}
-            <h3 className="text-white font-bold text-lg md:text-xl">{title}</h3>
-            <p className="text-white/90 text-sm mt-1 line-clamp-2">{description}</p>
+            {/* Title and description at the bottom */}
+            <div>
+              <h3 className="text-white font-bold text-lg md:text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">{title}</h3>
+              <p className="text-white/90 text-sm mt-1 line-clamp-2 drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">{description}</p>
+            </div>
             
             {isVideoContent && (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 rounded-full p-4">
@@ -157,7 +159,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
         )}
       </Button>
       
-      {/* Caption section - Now clearly separated from the image */}
+      {/* Caption section with improved styling */}
       {caption && generatedImage && (
         <div className="mt-3 w-full">
           <div className="bg-gray-50 p-3 rounded-md border border-gray-200">

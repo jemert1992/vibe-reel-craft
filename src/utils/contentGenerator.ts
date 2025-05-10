@@ -6,55 +6,55 @@ const generateId = () => {
   return Math.random().toString(36).substr(2, 9);
 };
 
-// Sample data for different content types with visual concepts
+// Sample data for different content types with enhanced visual concepts
 const contentTemplates: Record<string, Record<ContentType, any[]>> = {
   Fitness: {
     educational: [
       {
-        title: "5 Common Workout Mistakes You're Making",
-        description: "Create a fitness video highlighting the top 5 common workout mistakes people make with proper form demonstrations and corrections.",
-        textOverlay: "STOP These 5 Workout Mistakes! 💪",
-        imagePrompt: "A split-screen showing incorrect vs. correct squat form with highlighted areas of concern, using vibrant colors and clear visual indicators.",
-        caption: "These mistakes could be holding back your fitness progress! ⚠️ Which one surprised you most? Comment below! #FitnessCorrections #WorkoutTips"
+        title: "One Simple Exercise Everyone Does Wrong",
+        description: "Create a fitness post showing the correct form for a common exercise that most people do incorrectly.",
+        textOverlay: "You're Doing This WRONG! 💪",
+        imagePrompt: "A person demonstrating perfect squat form with proper posture, center framed against a clean gym background with dramatic lighting highlighting their form.",
+        caption: "This small form correction will transform your results and prevent injuries! Drop a 🔥 if you learned something new today! #FormFix #FitnessForm"
       },
       {
-        title: "How to Perfect Your Squat Form",
-        description: "Film a step-by-step breakdown of proper squat technique, highlighting common errors and how to fix them for maximum results.",
-        textOverlay: "Perfect Your Squat TODAY! 🏋️",
-        imagePrompt: "A side view of a person performing a perfect squat with form guidelines overlaid, using arrows to indicate proper positioning and alignment.",
-        caption: "Master this fundamental movement for better results and fewer injuries! 💯 What exercise form would you like help with next? #SquatForm #FitnessEducation"
+        title: "The Only Stretch You Need Daily",
+        description: "Show a single essential stretch that targets multiple muscle groups for better mobility.",
+        textOverlay: "Do This EVERY Day! 🧘‍♂️",
+        imagePrompt: "A fitness model performing a perfect hip flexor stretch on a yoga mat, with clean lighting and a gradient background emphasizing proper form and position.",
+        caption: "I do this ONE stretch daily for better mobility and less pain. Has your flexibility improved with daily stretching? #MobilityMatters #DailyStretch"
       }
     ],
     entertaining: [
       {
-        title: "Try This 30-Second Fitness Challenge",
-        description: "Create an engaging fitness challenge that viewers can try in just 30 seconds, perfect for a quick viral video.",
-        textOverlay: "Can YOU Beat This Challenge? 🔥",
-        imagePrompt: "A dynamic action shot of someone mid-challenge exercise with a timer overlay, using high-energy colors and motion blur to convey intensity.",
-        caption: "Tag someone who needs to try this! 😱 Think you can beat my score? Show me in the comments! #FitnessChallenge #30SecondWorkout"
+        title: "The Gym Face Everyone Makes",
+        description: "Create a humorous post showing the universal expression people make during an intense exercise.",
+        textOverlay: "We ALL Make This Face! 😤",
+        imagePrompt: "A person mid-exercise with an exaggerated effort facial expression, dramatically lit from above, center framed against a bold colored background for comic effect.",
+        caption: "Tag someone who makes THIS exact face during leg day! 😂 What's your signature gym expression? #GymFaces #WorkoutHumor"
       },
       {
-        title: "When Your Gym Buddy Skips Leg Day",
-        description: "Create a humorous skit about the friend who always finds excuses to skip leg day at the gym, using trending sounds.",
-        textOverlay: "Leg Day Excuses BE LIKE... 😂",
-        imagePrompt: "A comical split-screen image showing a person with an exaggerated upper body and tiny legs versus a balanced physique, using meme-style edits.",
-        caption: "We all know someone... 👀 Tag your gym buddy who needs this reminder! What's your favorite excuse? #LegDayHumor #GymLife"
+        title: "When Someone Takes Your Equipment",
+        description: "A relatable gym moment showing a person's reaction when their equipment gets taken.",
+        textOverlay: "Gym Etiquette 101 🏋️",
+        imagePrompt: "A person with an exaggerated confused/annoyed expression looking at empty space where gym equipment should be, with vibrant colors and dramatic shadows for emphasis.",
+        caption: "This happened THREE times today! Do you ask before taking someone's equipment or just grab and go? 👀 #GymEtiquette #GymLife"
       }
     ],
     promotional: [
       {
-        title: "My 30-Day Fitness Program Results",
-        description: "Share a compelling before and after transformation showcasing results from your fitness program with key highlights.",
-        textOverlay: "30 Days Changed EVERYTHING ✨",
-        imagePrompt: "A before/after side-by-side transformation photo with eye-catching progress indicators and visual improvement markers, professional and inspiring.",
-        caption: "These results speak for themselves! 💥 Ready to transform your body and mindset? Link in bio for my complete program! #FitnessTransformation #30DayChallenge"
+        title: "The One Supplement That Works",
+        description: "Showcase a single effective supplement that delivers noticeable results.",
+        textOverlay: "GAME CHANGER Supplement! ⚡",
+        imagePrompt: "A single supplement bottle/container dramatically lit in the center of the frame against a dark background with a subtle glow effect emphasizing its importance.",
+        caption: "After testing dozens of supplements, this is the ONLY one I've found that delivers real results. What supplements have actually worked for you? #SupplementTruth #FitnessResults"
       },
       {
-        title: "Why This Protein Powder Changed My Workouts",
-        description: "Create a review highlighting the difference this specific protein supplement made to your fitness results with visual evidence.",
-        textOverlay: "The GAME CHANGER Supplement! 🔄",
-        imagePrompt: "A product showcase image with the protein powder prominently displayed alongside visual performance metrics/charts, professionally lit with brand colors.",
-        caption: "Finally found the supplement that actually delivers results! 💪 Ask me any questions about it below! #SupplementReview #FitnessResults"
+        title: "My Favorite Workout Gear",
+        description: "Highlight one piece of fitness equipment or apparel that enhances your workout experience.",
+        textOverlay: "Never Workout Without THIS! 🔥",
+        imagePrompt: "A single piece of premium workout equipment or apparel (like specialized lifting shoes) center-framed with dramatic lighting highlighting its features and quality.",
+        caption: "This completely transformed my training sessions! What's your must-have workout gear? Link in bio for details! #FitnessEssentials #WorkoutGear"
       }
     ],
     all: [] // This will be populated with all types
@@ -62,50 +62,50 @@ const contentTemplates: Record<string, Record<ContentType, any[]>> = {
   Beauty: {
     educational: [
       {
-        title: "How to Layer Skincare Products Correctly",
-        description: "Create a step-by-step guide showing the correct order to apply skincare products for maximum effectiveness.",
-        textOverlay: "STOP Applying Products Wrong! ✋",
-        imagePrompt: "A visually organized flat lay of skincare products in correct application order with numbered steps, clean aesthetic with soft lighting.",
-        caption: "Your skincare might be canceling itself out! 😱 Are you applying in the right order? Let me know your routine below! #SkincareOrder #BeautyEducation"
+        title: "The Multi-Use Product Everyone Needs",
+        description: "Showcase a single beauty product that can be used in multiple ways for different effects.",
+        textOverlay: "3 Uses, ONE Product! ✨",
+        imagePrompt: "A single multi-purpose beauty product (like a tinted balm) center-framed against a clean, pastel background with dramatic lighting highlighting its texture and color.",
+        caption: "This product works for lips, cheeks AND eyes! What's your favorite multi-use beauty hack? #BeautyHacks #MultitaskingMakeup"
       },
       {
-        title: "Understanding Skin Types and Concerns",
-        description: "Create an educational guide helping viewers identify their skin type with visual examples and customized recommendations.",
-        textOverlay: "What's YOUR Skin Type? 🔍",
-        imagePrompt: "A grid showing four different skin types with close-up texture examples and characteristic indicators, clean clinical style with clear labeling.",
-        caption: "Knowing your skin type is step one to an effective routine! 💫 Take the quiz in my bio to find yours! #SkinTypeTips #SkincareBasics"
+        title: "The Correct Order of Skincare",
+        description: "Focus on the most important skincare product in your routine and why order matters.",
+        textOverlay: "ALWAYS Apply This FIRST! 🧴",
+        imagePrompt: "A hand holding a single skincare product (serum bottle or similar) with perfect lighting highlighting the texture of the product against a clean, minimal background.",
+        caption: "Getting the order wrong can make your expensive products useless! What's the first product in YOUR skincare routine? #SkincareOrder #BeautyScience"
       }
     ],
     entertaining: [
       {
-        title: "Trying Viral Beauty Hacks - Do They Work?",
-        description: "Test popular beauty hacks from social media with honest reactions and results, using a trending sound.",
-        textOverlay: "This Hack is a LIE! 🤯",
-        imagePrompt: "A shocked facial expression with split-screen before/after of a beauty hack attempt, vibrant colors and exaggerated reaction styling.",
-        caption: "I was SHOOK when I tried hack #3! 😳 Have you tried any of these? Share your fails below! #BeautyHacksFail #TrendAlert"
+        title: "When You Try a New Product",
+        description: "A humorous take on trying a hyped beauty product for the first time.",
+        textOverlay: "Expectations vs. REALITY! 😳",
+        imagePrompt: "A person with an exaggerated shocked/surprised expression examining their face in a mirror after applying a beauty product, with bright, theatrical lighting.",
+        caption: "The way this product promised me MODEL skin and delivered... THIS! 😂 What overhyped product disappointed you most? #BeautyFails #ProductReality"
       },
       {
-        title: "My Partner Does My Makeup",
-        description: "Film a humorous challenge where your partner attempts to do your makeup, capturing genuine reactions.",
-        textOverlay: "He Did My Makeup... OMG! 🙈",
-        imagePrompt: "A side-by-side of a makeup lover's regular look versus the partner's attempt, with exaggerated reaction expressions, fun and candid styling.",
-        caption: "The confidence vs the result... 🤣 Should we let him try again? Comment YES or NO! #PartnerMakeupChallenge #BeautyFail"
+        title: "My Makeup Without Filters",
+        description: "An authentic look at makeup application in real lighting conditions.",
+        textOverlay: "REAL Makeup, NO Filter! 👀",
+        imagePrompt: "A close-up of perfect, detailed makeup (like an eye with elaborate eyeshadow) in natural lighting conditions showing genuine texture and dimension.",
+        caption: "Keeping it 100% real with how this look actually appears in daylight! Do you prefer filtered or unfiltered beauty content? #NoFilter #RealMakeup"
       }
     ],
     promotional: [
       {
-        title: "My Holy Grail Beauty Products",
-        description: "Share your all-time favorite beauty products that deliver consistent results, with before and after demonstrations.",
-        textOverlay: "Products I ACTUALLY Repurchase 💄",
-        imagePrompt: "An aesthetically arranged collection of well-used beauty products with elegant lighting and professional product photography styling.",
-        caption: "These are the only products that have earned permanent spots in my routine! 💯 What's your ride-or-die beauty product? #HolyGrailProducts #BeautyMustHaves"
+        title: "The Viral Product Worth the Hype",
+        description: "Focus on a single trending beauty product that actually delivers on its promises.",
+        textOverlay: "Believe The HYPE! 🙌",
+        imagePrompt: "A single beauty product dramatically lit and center-framed against a background that complements its packaging, with a subtle glow effect emphasizing its importance.",
+        caption: "After testing for 3 weeks, this viral product ACTUALLY lives up to the TikTok hype! Have you tried it yet? Link in bio! #WorthTheHype #BeautyMustHave"
       },
       {
-        title: "Why This Serum Changed My Skin",
-        description: "Create a compelling review of a transformative skincare product with visual evidence of your results over time.",
-        textOverlay: "The Serum That SAVED My Skin! ✨",
-        imagePrompt: "A before/after skin transformation with product elegantly displayed in foreground, professional beauty advertisement style with soft glowing effects.",
-        caption: "After trying EVERYTHING, this finally gave me results in just 3 weeks! 🌟 Questions about my routine? Ask below! #SkinTransformation #BeautyReview"
+        title: "The One Tool That Changed My Routine",
+        description: "Highlight a single beauty tool that dramatically improved your beauty routine.",
+        textOverlay: "BEST Beauty Investment! 💄",
+        imagePrompt: "A high-end beauty tool (like a facial roller or premium brush) isolated against a luxurious background with dramatic lighting highlighting its quality and features.",
+        caption: "I was skeptical but this tool cut my routine time in HALF! What beauty tool can't you live without? #BeautyEssentials #TimeHack"
       }
     ],
     all: []
@@ -113,50 +113,50 @@ const contentTemplates: Record<string, Record<ContentType, any[]>> = {
   Food: {
     educational: [
       {
-        title: "5 Cooking Mistakes Everyone Makes",
-        description: "Create a helpful guide exposing common cooking errors with demonstrations of the correct techniques.",
-        textOverlay: "You're Cooking It WRONG! 🍳",
-        imagePrompt: "A side-by-side comparison of incorrect versus correct cooking technique with steam and action, vibrant colors and clear visual indicators.",
-        caption: "Game-changing cooking tips your grandma should have taught you! 👵 Which one surprised you most? #CookingTips #KitchenHacks"
+        title: "The Secret Ingredient Chefs Use",
+        description: "Reveal a single ingredient that professional chefs use to elevate ordinary dishes.",
+        textOverlay: "Chefs' SECRET Ingredient! 🧂",
+        imagePrompt: "A hand sprinkling a single special ingredient (like flaky salt or fresh herb) onto a perfectly plated dish, with dramatic lighting highlighting the ingredient's texture.",
+        caption: "This ONE ingredient is the difference between home cooking and restaurant quality! What's your secret ingredient? #ChefSecrets #FlavorHack"
       },
       {
-        title: "How to Properly Cut an Onion (Without Tears)",
-        description: "Film a quick tutorial showing the professional chef method for dicing an onion efficiently and tearlessly.",
-        textOverlay: "NEVER Cry Cutting Onions Again! 🧅",
-        imagePrompt: "An overhead action shot of hands properly cutting an onion with knife skills demonstrated, professional food photography style with directional light.",
-        caption: "This chef-approved method changed my meal prep forever! 🔪 Show me your onion cutting attempts! #ChefTips #CookingSkills"
+        title: "How to Cut Vegetables Like a Pro",
+        description: "Show a professional knife technique for cutting vegetables efficiently.",
+        textOverlay: "Cut Like a PRO Chef! 🔪",
+        imagePrompt: "A close-up of hands using proper knife technique to slice a vegetable, with dramatic lighting highlighting the precision of the cut and quality of the knife.",
+        caption: "This knife technique will speed up your prep time and make your dishes look restaurant-quality! What cooking skill do you want to learn next? #ChefSkills #KnifeTechnique"
       }
     ],
     entertaining: [
       {
-        title: "Testing Weird Food Combinations That Actually Work",
-        description: "Try unexpected food pairings that surprisingly taste amazing, with genuine reaction shots.",
-        textOverlay: "This Combo CHANGED My Life! 🤤",
-        imagePrompt: "A surprised facial expression with an unusual food pairing arranged in an appetizing way, bright colors and stylized food photography.",
-        caption: "I was SKEPTICAL until I tried #3! 😱 What's the strangest food combo you secretly love? #WeirdFoodCombos #TasteTesting"
+        title: "When the Recipe Says 'Quick & Easy'",
+        description: "A humorous take on supposedly simple recipes that turn complicated.",
+        textOverlay: "'10-Minute' Recipe... RIGHT! 😅",
+        imagePrompt: "A messy kitchen countertop with a single prominently featured failed dish in the center, with exaggerated lighting highlighting the chaos and contrast to perfection.",
+        caption: "Hour 3 of this '10-minute recipe' and I'm questioning all my life choices! 💀 Tag someone who relates to this cooking struggle! #RecipeReality #CookingFail"
       },
       {
-        title: "When the Recipe Says 'Easy' But It's Actually Not",
-        description: "Create a humorous skit about the reality of attempting 'simple' recipes from the internet versus how they actually turn out.",
-        textOverlay: "Pinterest vs. Reality: FOOD Edition 😂",
-        imagePrompt: "A dramatic split-screen of a perfect Pinterest recipe result versus a hilarious cooking fail attempt, exaggerated styling with meme elements.",
-        caption: "The audacity to call this 'beginner-friendly'! 💀 Tag someone whose cooking looks like the right side! #RecipeFails #CookingReality"
+        title: "My Food vs. Restaurant Photos",
+        description: "A humorous comparison of homemade food presentation versus professional photos.",
+        textOverlay: "Instagram vs. My Plate! 🍽️",
+        imagePrompt: "A somewhat messy but delicious-looking homemade dish presented on a regular dinner plate with natural lighting showing authentic food texture and presentation.",
+        caption: "My attempt at that fancy restaurant dish looked NOTHING like the picture! 😂 Show me your cooking 'nailed it' moments! #FoodReality #CookingAttempts"
       }
     ],
     promotional: [
       {
-        title: "5-Minute Breakfast Recipes That Keep Me Full",
-        description: "Showcase quick, nutritious breakfast recipes that actually satisfy hunger, perfect for busy mornings.",
-        textOverlay: "GAME-CHANGING 5-Min Breakfast! ⏰",
-        imagePrompt: "A visually appealing healthy breakfast with a clock indicating 5 minutes, bright morning lighting and styled food photography.",
-        caption: "Never skip breakfast again with these quick recipes! ☀️ Which one are you trying tomorrow? Full recipes in my bio! #QuickBreakfast #HealthyEating"
+        title: "The One Kitchen Tool You Need",
+        description: "Feature a single essential kitchen tool that makes cooking easier and more efficient.",
+        textOverlay: "BEST Kitchen Investment! 👨‍🍳",
+        imagePrompt: "A single high-quality kitchen tool (like a chef's knife or multi-cooker) dramatically lit and center-framed against a clean kitchen background highlighting its features.",
+        caption: "This tool has saved me HOURS of cooking time every week! What's your most-used kitchen tool? Link in bio for my recommendation! #KitchenEssentials #CookingTools"
       },
       {
-        title: "My Secret Sauce Recipe Everyone Asks For",
-        description: "Share your signature sauce recipe that elevates any dish, with a demonstration of how to make it.",
-        textOverlay: "The Sauce They BEG For! 🌶️",
-        imagePrompt: "A close-up of sauce being drizzled over food with steam and vibrant colors, professional food styling with dramatic lighting.",
-        caption: "My friends literally bring empty jars to dinner for this sauce! 🔥 Tag someone who needs this recipe! #SecretSauce #RecipeReveal"
+        title: "The Easiest Meal Prep Hack",
+        description: "Showcase a simple but effective meal preparation technique that saves time.",
+        textOverlay: "Meal Prep GAME CHANGER! ⏱️",
+        imagePrompt: "A single meal prep container with perfectly organized, colorful food components showing an efficient and appetizing preparation technique.",
+        caption: "This simple hack has saved me 3 hours every Sunday! What's your favorite meal prep shortcut? Full guide in my bio! #MealPrepSunday #TimeHack"
       }
     ],
     all: []
@@ -167,50 +167,50 @@ const contentTemplates: Record<string, Record<ContentType, any[]>> = {
 const genericTemplates: Record<ContentType, any[]> = {
   educational: [
     {
-      title: "5 Things You Need to Know About [NICHE]",
-      description: "Create an informative video breaking down the 5 most essential things beginners should know about [NICHE], with visual examples.",
-      textOverlay: "5 [NICHE] FACTS You Need to Know! 💡",
-      imagePrompt: "An organized visual with 5 numbered key points about [NICHE], using icons and visual aids to represent each fact, educational style with clear sections.",
-      caption: "These fundamentals changed my [NICHE] journey completely! 🌟 Which fact surprised you most? #[NICHE]Tips #BeginnerAdvice"
+      title: "The One [NICHE] Tip Everyone Needs",
+      description: "Share a single, game-changing tip related to [NICHE] that can benefit everyone in the audience.",
+      textOverlay: "[NICHE] Tip You NEED! 💡",
+      imagePrompt: "A person demonstrating a single, clear [NICHE] technique or tip, center-framed with dramatic lighting highlighting the important elements against a simple background.",
+      caption: "This ONE tip changed my entire approach to [NICHE]! What's the best [NICHE] advice you've ever received? #[NICHE]Tips #GameChanger"
     },
     {
-      title: "Common Myths About [NICHE] Debunked",
-      description: "Expose and correct widespread misconceptions about [NICHE] with evidence-based explanations and visual demonstrations.",
-      textOverlay: "[NICHE] Myths BUSTED! ❌",
-      imagePrompt: "A dramatic split screen showing myths versus reality with clear visual contrasts, using myth-busting visual elements like X marks and check marks.",
-      caption: "Stop believing these [NICHE] myths TODAY! 🔍 What other myths have you heard? Let me know below! #MythBusting #[NICHE]Facts"
+      title: "The Biggest [NICHE] Mistake to Avoid",
+      description: "Highlight the single most common mistake people make in [NICHE] and how to fix it.",
+      textOverlay: "STOP Making This Mistake! ⚠️",
+      imagePrompt: "A clear visual representation of a common [NICHE] mistake, dramatically lit with bold colors and clear visual elements highlighting what to avoid.",
+      caption: "I see this mistake EVERYWHERE and it's costing you progress! Did you know about this? Drop a 🙌 if this helped! #[NICHE]Mistakes #LearnWithMe"
     }
   ],
   entertaining: [
     {
-      title: "[NICHE] Expectation vs. Reality",
-      description: "Create a humorous comparison between what people think [NICHE] looks like versus the actual experience, using a trending sound.",
-      textOverlay: "[NICHE] Expectations vs. REALITY! 😂",
-      imagePrompt: "A split-screen expectation versus reality comparison with exaggerated contrasts, using humor-focused styling and bold visual differences.",
-      caption: "We've all been there! 💀 Tag someone who needs this reality check! #ExpectationVsReality #[NICHE]Life"
+      title: "When You're Obsessed With [NICHE]",
+      description: "A relatable, humorous take on being passionate about [NICHE].",
+      textOverlay: "[NICHE] Obsession Be Like... 😂",
+      imagePrompt: "A person with an exaggerated, humorous expression surrounded by or interacting with a single [NICHE]-related item, with vibrant colors and dramatic lighting for comedic effect.",
+      caption: "My friends are tired of hearing about [NICHE] but I CANNOT stop talking about it! 🤣 Tag someone who's just as obsessed! #[NICHE]Addict #Relatable"
     },
     {
-      title: "Things Only [NICHE] People Understand",
-      description: "Create a relatable list of experiences that only people involved in [NICHE] will instantly recognize and relate to.",
-      textOverlay: "[NICHE] Problems: You Know If You Know! 👀",
-      imagePrompt: "A relatable reaction shot with visual representations of [NICHE]-specific situations, using meme styling and exaggerated expressions.",
-      caption: "Number 3 happens to me DAILY! 😅 What [NICHE] problems would you add to the list? #[NICHE]Problems #RelatableContent"
+      title: "No One Told Me About [NICHE]",
+      description: "A humorous take on surprising discoveries in [NICHE] that beginners aren't prepared for.",
+      textOverlay: "They NEVER Tell Beginners! 😱",
+      imagePrompt: "A person with a shocked/surprised expression interacting with a single [NICHE] item or situation, with theatrical lighting highlighting their reaction.",
+      caption: "Month 1 vs Month 6 of [NICHE] and NO ONE prepared me for this reality! 💀 What surprised you most about getting into [NICHE]? #[NICHE]Reality #BeginnerProblems"
     }
   ],
   promotional: [
     {
-      title: "Why I Use This [NICHE] Product",
-      description: "Create a compelling review of a game-changing product for [NICHE], highlighting its unique benefits with before and after results.",
-      textOverlay: "This Changed My [NICHE] FOREVER! ✨",
-      imagePrompt: "A before/after transformation showcasing product results with the product prominently displayed, professional advertisement styling with brand colors.",
-      caption: "I honestly can't believe the difference this has made! 🤯 Questions about how I use it? Ask below! #[NICHE]Must-Have #ProductReview"
+      title: "The Only [NICHE] Product Worth Buying",
+      description: "Showcase a single high-quality product related to [NICHE] that stands above the competition.",
+      textOverlay: "FINALLY Found THE ONE! ✨",
+      imagePrompt: "A single high-quality [NICHE] product dramatically lit and center-framed against a complementary background that highlights its features and premium quality.",
+      caption: "After trying DOZENS of options, this is the only [NICHE] product I recommend! What's your holy grail [NICHE] item? Link in bio! #[NICHE]Essentials #TopPick"
     },
     {
-      title: "My [NICHE] Essentials",
-      description: "Showcase the top products and tools you can't live without for [NICHE], with demonstrations of how you use each one.",
-      textOverlay: "My TOP [NICHE] Must-Haves! 💯",
-      imagePrompt: "An aesthetically arranged flat lay of essential [NICHE] products with professional styling and organized visual hierarchy.",
-      caption: "These are the only products that earned a permanent spot in my [NICHE] routine! 🏆 What's your #1 essential? #[NICHE]Essentials #FavoriteProducts"
+      title: "How I Transformed My [NICHE]",
+      description: "Show a dramatic transformation or improvement in [NICHE] using a specific method or product.",
+      textOverlay: "One Change, BIG Results! 🔄",
+      imagePrompt: "A single, powerful visual representing a transformation or significant improvement in [NICHE], with dramatic lighting emphasizing the change or result.",
+      caption: "Making this ONE change completely transformed my [NICHE] results in just weeks! Want to know my exact method? Details in bio! #[NICHE]Transformation #GameChanger"
     }
   ],
   all: []
@@ -227,31 +227,31 @@ const platformStyles: Record<string, string> = {
 const generateEnhancedDescription = (title: string, niche: string, type: ContentType, platform: Platform): any => {
   // Base description templates with stronger visual focus
   const descriptionTemplates = [
-    `Create a ${niche.toLowerCase()} video about ${title.toLowerCase()}, focusing on clear visual demonstrations and eye-catching visuals that will stop viewers from scrolling.`,
-    `Share your take on ${title.toLowerCase()} with a trending sound and strong visual hooks. Use text overlays to emphasize key points about this ${niche.toLowerCase()} topic.`,
-    `Film a ${niche.toLowerCase()} tutorial showing step-by-step visuals of ${title.toLowerCase().includes('how to') ? title.toLowerCase().replace('how to ', '') : title.toLowerCase()}.`,
-    `Create a visually striking ${niche.toLowerCase()} video starting with an attention-grabbing hook about ${title.toLowerCase()}.`
+    `Create a ${niche.toLowerCase()} post with one clear focal point showing ${title.toLowerCase()}, designed to stop viewers from scrolling.`,
+    `Share a visually striking ${niche.toLowerCase()} post about ${title.toLowerCase()} with a single main subject and bold visual elements.`,
+    `Design a ${niche.toLowerCase()} post featuring ${title.toLowerCase().includes('how to') ? title.toLowerCase().replace('how to ', '') : title.toLowerCase()} with one clear visual concept.`,
+    `Create an eye-catching ${niche.toLowerCase()} post with a single subject highlighting ${title.toLowerCase()}.`
   ];
   
   // Platform-specific text overlay suggestions
   const textOverlayTemplates: Record<ContentType, string[]> = {
     educational: [
-      `${title.includes('5') ? title.split(' ').slice(0, 3).join(' ') : '5 Things About'} YOU NEED TO KNOW! 💡`,
-      `This ${title.split(' ').slice(-1)[0].toUpperCase()} Technique CHANGED EVERYTHING! ✅`,
-      `${title.includes('How') ? title.replace('How to', 'How To ACTUALLY') : 'How To Master'} ${title.split(' ').slice(-1)[0]}! 👨‍🏫`,
-      `${title.includes('Common') ? title : 'Common ' + niche} MISTAKES To Avoid! ⚠️`
+      `${title.split(' ').slice(0, 3).join(' ').toUpperCase()}! 💡`,
+      `You NEED To Know THIS! ✅`,
+      `This Changes EVERYTHING! 🔍`,
+      `STOP Doing This Wrong! ⚠️`
     ],
     entertaining: [
-      `${title} Be Like... 😂`,
-      `When You ${title.split(' ').slice(1).join(' ')}! 💀`,
-      `${title.includes('vs') ? title.toUpperCase() : title + ' VS REALITY'}! 👀`,
-      `POV: ${title.charAt(0).toUpperCase() + title.slice(1)}! 🤣`
+      `This Is SO Me! 😂`,
+      `When ${title.split(' ').slice(0, 4).join(' ')}... 💀`,
+      `${platform === 'tiktok' ? 'TikTok' : 'Instagram'} vs REALITY! 👀`,
+      `Tell Me You ${title.split(' ').slice(0, 3).join(' ')}... 🤣`
     ],
     promotional: [
-      `This ${niche} ${title.includes('Product') ? 'Product' : 'Method'} CHANGED MY LIFE! ✨`,
-      `The ${title.split(' ').slice(-2).join(' ')} You NEED To Try! 🔥`,
-      `I Tried ${title} For 30 Days... 😱`,
-      `The SECRET To ${title.includes('Why') ? title.replace('Why', '') : title}! 🤫`
+      `GAME CHANGER Alert! ✨`,
+      `You NEED This NOW! 🔥`,
+      `I'm OBSESSED With This! 😍`,
+      `The SECRET Everyone Wants! 🤫`
     ],
     all: []
   };
@@ -260,19 +260,19 @@ const generateEnhancedDescription = (title: string, niche: string, type: Content
   const generateImagePrompt = (type: ContentType, niche: string, title: string, platform: Platform) => {
     const basePrompts: Record<ContentType, string[]> = {
       educational: [
-        `A clear, well-organized visual guide about ${title.toLowerCase()} with numbered steps or key points, using ${platformStyles[platform]} to ensure information is visually appealing.`,
-        `A split-screen comparison related to ${title.toLowerCase()} showing correct vs. incorrect methods, with clear visual indicators and ${platformStyles[platform]}.`,
-        `A tutorial-style image showing a ${niche.toLowerCase()} expert demonstrating ${title.toLowerCase()}, with highlighted key elements and ${platformStyles[platform]}.`
+        `A single, clear visual showing ${title.toLowerCase()} with ${platformStyles[platform]}, centered composition with one main focal point to ensure information is instantly understandable.`,
+        `A person demonstrating ${title.toLowerCase()} with dramatic lighting highlighting the key action or item, using ${platformStyles[platform]} and ensuring there's space at the top for text overlay.`,
+        `A close-up of the most important element of ${title.toLowerCase()}, with ${platformStyles[platform]} and bold visual contrast to emphasize the educational point.`
       ],
       entertaining: [
-        `A humorous, exaggerated scene depicting ${title.toLowerCase()} with expressive facial reactions, using ${platformStyles[platform]} to maximize entertainment value.`,
-        `A side-by-side expectation vs. reality comparison related to ${title.toLowerCase()}, using contrasting visual elements and ${platformStyles[platform]}.`,
-        `A dramatic, attention-grabbing image representing ${title.toLowerCase()} with trending visual effects and ${platformStyles[platform]}.`
+        `A person with an exaggerated facial expression reacting to ${title.toLowerCase()}, using ${platformStyles[platform]} with bold colors and theatrical lighting for maximum entertainment value.`,
+        `A single humorous visual representing ${title.toLowerCase()}, with ${platformStyles[platform]} and exaggerated elements to heighten comedic effect.`,
+        `A dramatic, attention-grabbing image showing ${title.toLowerCase()} with a comical twist, using ${platformStyles[platform]} and leaving space at the top for bold text.`
       ],
       promotional: [
-        `A professional before/after transformation showcasing results related to ${title.toLowerCase()}, with product placement and ${platformStyles[platform]}.`,
-        `A lifestyle-focused image featuring ${title.toLowerCase()} in an aspirational setting, using ${platformStyles[platform]} to create desire.`,
-        `An aesthetically pleasing arrangement of products related to ${title.toLowerCase()}, styled with ${platformStyles[platform]} to highlight quality and benefits.`
+        `A single high-quality ${niche.toLowerCase()} product related to ${title.toLowerCase()}, dramatically lit with ${platformStyles[platform]} to create desire and showcase quality.`,
+        `A person showcasing or using a premium ${niche.toLowerCase()} item related to ${title.toLowerCase()}, with ${platformStyles[platform]} and luxurious visual elements.`,
+        `An aspirational lifestyle image featuring ${title.toLowerCase()}, using ${platformStyles[platform]} with emphasis on a single desirable item or outcome.`
       ],
       all: []
     };
@@ -284,19 +284,19 @@ const generateEnhancedDescription = (title: string, niche: string, type: Content
   const generateCaption = (type: ContentType, niche: string, title: string) => {
     const captionTemplates: Record<ContentType, string[]> = {
       educational: [
-        `This ${niche.toLowerCase()} hack changed my entire approach! 🤯 Which tip was most helpful? Comment below! #${niche}Tips #${niche}Education`,
-        `I wish I knew this ${title.toLowerCase()} information sooner! ✨ Save this for later, you'll need it! #${niche}Advice #Learn${niche}`,
-        `Game-changing ${niche.toLowerCase()} information that nobody talks about! 💡 Questions? Drop them below! #${niche}Secrets #${niche}Hacks`
+        `This simple ${niche.toLowerCase()} tip changed everything for me! Did you already know this? Drop a 💯 if this helped! #${niche}Tips #${niche}Education`,
+        `I wish someone had told me this ${title.toLowerCase()} hack sooner! Save this post—you'll need it later! #${niche}Advice #Learn${niche}`,
+        `The ONE thing about ${niche.toLowerCase()} nobody talks about! Got questions? Ask below and I'll help! #${niche}Secrets #${niche}Hacks`
       ],
       entertaining: [
-        `We've all been there with ${title.toLowerCase()}! 😂 Tag someone who needs to see this! #${niche}Humor #${niche}Realities`,
-        `The way I SCREAMED making this ${niche.toLowerCase()} video! 💀 What should I try next? #${niche}Fails #${niche}Comedy`,
-        `This is too accurate! 🤣 Did this ${title.toLowerCase()} moment happen to you too? Share your story! #Relatable${niche} #${niche}Life`
+        `Tell me you're obsessed with ${niche.toLowerCase()} without TELLING me! 😂 Tag someone who relates to this! #${niche}Humor #${niche}Life`,
+        `My reaction every single time I ${title.toLowerCase().includes('when') ? title.toLowerCase().replace('when', '') : title.toLowerCase()}! 💀 Who else does this? #Relatable${niche} #${niche}Reality`,
+        `No one prepared me for this part of ${niche.toLowerCase()}! 🤣 What's your most embarrassing ${niche.toLowerCase()} moment? #${niche}Fails #${niche}Comedy`
       ],
       promotional: [
-        `Finally found THE solution for ${title.toLowerCase()}! 🙌 Link in bio to transform your ${niche.toLowerCase()} experience! #${niche}MustHave #${niche}Transformation`,
-        `This ${niche.toLowerCase()} product exceeded all my expectations! ✨ Questions about my results? Ask away! #${niche}Review #${niche}Products`,
-        `Three weeks of using this ${niche.toLowerCase()} method and I'm never going back! 🔥 Try it and thank me later! #${niche}Results #${niche}Solution`
+        `After trying EVERYTHING, this ${niche.toLowerCase()} game-changer has completely transformed my results! Want the details? Drop a 🔥 below! #${niche}MustHave #${niche}Transformation`,
+        `This is the ONE ${niche.toLowerCase()} essential I recommend to EVERYONE! What's your can't-live-without item? Link in bio! #${niche}Essentials #${niche}Products`,
+        `Three weeks using this ${niche.toLowerCase()} method and the results speak for themselves! Questions? I'm answering all in the comments! #${niche}Results #${niche}Solution`
       ],
       all: []
     };
@@ -417,6 +417,13 @@ export const generateContentIdeas = (
       template.caption = template.caption || enhancedParts.caption;
     }
     
+    // Generate hashtags if they're not already in the caption
+    let caption = template.caption;
+    if (!caption.includes('#')) {
+      const hashtags = [`#${niche}`, `#${type}Content`, platform === 'tiktok' ? '#TikTokTips' : '#ReelsIdeas'];
+      caption += ` ${hashtags.join(' ')}`;
+    }
+    
     const idea: ContentIdea = {
       id: generateId(),
       title: template.title,
@@ -426,11 +433,12 @@ export const generateContentIdeas = (
       platform,
       textOverlay: template.textOverlay,
       imagePrompt: template.imagePrompt,
-      caption: template.caption
+      caption: caption,
+      visualStyle: "high-contrast, single focal point, vibrant colors"
     };
     
     ideas.push(idea);
   }
   
   return ideas;
-};
+}

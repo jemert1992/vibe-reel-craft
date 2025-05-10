@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -135,7 +136,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         </div>
                       </div>
                       
-                      {/* Enhanced text overlay display - now clearly labeled */}
+                      {/* Text overlay section - clearly labeled */}
                       {idea.textOverlay && (
                         <div className="mt-3 bg-gray-50 p-2 rounded-md">
                           <div className="flex justify-between items-center">
@@ -164,7 +165,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         onGenerateImage={() => handleGenerateImage(idea)}
                       />
                       
-                      {/* Caption section - now labeled as "Caption for Posting" */}
+                      {/* Caption section - labeled as "Caption for Posting" */}
                       {idea.caption && !generatedImages[idea.id] && (
                         <div className="mt-3 bg-gray-50 p-3 rounded-md border border-gray-200">
                           <div className="flex justify-between items-center">
