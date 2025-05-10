@@ -364,4 +364,166 @@ const generateEnhancedDescription = (title: string, niche: string, type: Content
       educational: [
         `A single, clear visual showing ${title.toLowerCase()} with ${platformStyles[platform]}, centered composition with one main focal point to ensure information is instantly understandable.`,
         `A person demonstrating ${title.toLowerCase()} with dramatic lighting highlighting the key action or item, using ${platformStyles[platform]} and ensuring there's space at the top for text overlay.`,
-        `A close-up of the most important element of ${title.toLowerCase()}, with ${platformStyles[platform]} and bold visual contrast to emphasize
+        `A close-up of the most important element of ${title.toLowerCase()}, with ${platformStyles[platform]} and bold visual contrast to emphasize the key concept.`
+      ],
+      entertaining: [
+        `A humorous scene depicting ${title.toLowerCase()} with exaggerated expressions and ${platformStyles[platform]}, designed to evoke an emotional reaction.`,
+        `A relatable moment showing the reality of ${title.toLowerCase()} with ${platformStyles[platform]} and visual elements that amplify the humor.`,
+        `A surprising or unexpected visual take on ${title.toLowerCase()} with ${platformStyles[platform]} that subverts expectations for comedic effect.`
+      ],
+      promotional: [
+        `A premium-looking visual highlighting ${title.toLowerCase()} with ${platformStyles[platform]} that emphasizes quality and desirability.`,
+        `A before/after or transformation visual related to ${title.toLowerCase()} with ${platformStyles[platform]} that clearly demonstrates value.`,
+        `A single product or service focused visual for ${title.toLowerCase()} with ${platformStyles[platform]} that creates desire through aspirational styling.`
+      ],
+      all: [
+        `A visually striking representation of ${title.toLowerCase()} with ${platformStyles[platform]} that immediately captures attention.`,
+        `A clear, high-quality visual concept centered on ${title.toLowerCase()} with ${platformStyles[platform]} designed for maximum engagement.`,
+        `An eye-catching scene featuring ${title.toLowerCase()} with ${platformStyles[platform]} that stands out in a crowded feed.`
+      ]
+    };
+    
+    const promptType = basePrompts[type] || basePrompts.all;
+    const promptIndex = Math.floor(Math.random() * promptType.length);
+    return promptType[promptIndex] || `A clear visual about ${title.toLowerCase()} with ${platformStyles[platform]}.`;
+  };
+  
+  // Select a random description template
+  const randomDescIndex = Math.floor(Math.random() * descriptionTemplates.length);
+  const description = descriptionTemplates[randomDescIndex];
+  
+  // Generate text overlay
+  const overlayTemplates = textOverlayTemplates[type] || textOverlayTemplates.all;
+  const randomOverlayIndex = Math.floor(Math.random() * overlayTemplates.length);
+  const textOverlay = overlayTemplates[randomOverlayIndex];
+  
+  // Generate image prompt
+  const imagePrompt = generateImagePrompt(type, niche, title, platform);
+  
+  return {
+    description,
+    textOverlay,
+    imagePrompt
+  };
+};
+
+// Generate content ideas based on niche, content type, and platform
+export function generateContentIdeas(niche: string, contentType: ContentType = 'all', platform: Platform = 'both', count: number = 3): ContentIdea[] {
+  console.log(`Generating ${count} ${contentType} ideas for ${niche} on ${platform}`);
+  
+  // Initialize array to store our ideas
+  let ideas: ContentIdea[] = [];
+  
+  // Get templates for the specified niche
+  const nicheTemplates = contentTemplates[niche] || {};
+  
+  // Decide which content types to include
+  const typesToInclude: ContentType[] = contentType === 'all' 
+    ? ['educational', 'entertaining', 'promotional']
+    : [contentType];
+  
+  // For each content type we want to include
+  for (const type of typesToInclude) {
+    // Get templates specific to this niche and type
+    const specificTemplates = nicheTemplates[type] || [];
+    
+    // Get generic templates for this type that we can adapt
+    const genericForType = genericTemplates[type] || [];
+    
+    // Combine available templates, prioritizing niche-specific ones
+    let availableTemplates = [...specificTemplates];
+    
+    // If we don't have enough specific templates, add some generic ones
+    if (availableTemplates.length < count && genericForType.length > 0) {
+      // Adapt generic templates to this niche
+      const adaptedGeneric = genericForType.map(template => {
+        const adapted = { ...template };
+        
+        if (adapted.title) {
+          adapted.title = adapted.title.replace('[NICHE]', niche);
+        }
+        if (adapted.description) {
+          adapted.description = adapted.description.replace('[NICHE]', niche.toLowerCase());
+        }
+        if (adapted.textOverlay) {
+          adapted.textOverlay = adapted.textOverlay.replace('[NICHE]', niche);
+        }
+        if (adapted.imagePrompt) {
+          adapted.imagePrompt = adapted.imagePrompt.replace('[NICHE]', niche.toLowerCase());
+        }
+        
+        return adapted;
+      });
+      
+      availableTemplates = [...availableTemplates, ...adaptedGeneric];
+    }
+    
+    // If we still don't have enough templates, generate some basic ones
+    if (availableTemplates.length < count) {
+      const baseTitles = {
+        educational: [`How to Improve Your ${niche} Results`, `The Secret to Better ${niche}`, `What Most ${niche} Experts Won't Tell You`],
+        entertaining: [`When Your ${niche} Goes Wrong`, `${niche} Expectations vs. Reality`, `Things Only ${niche} People Understand`],
+        promotional: [`The Best ${niche} Product of 2025`, `Why This ${niche} Tool Changed Everything`, `The Only ${niche} Service You Need`]
+      };
+      
+      const titles = baseTitles[type] || [`Amazing ${niche} Tips and Tricks`];
+      
+      for (let i = availableTemplates.length; i < count; i++) {
+        const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+        const { description, textOverlay, imagePrompt } = generateEnhancedDescription(randomTitle, niche, type, platform);
+        
+        availableTemplates.push({
+          title: randomTitle,
+          description,
+          textOverlay,
+          imagePrompt
+        });
+      }
+    }
+    
+    // Shuffle templates for variety
+    const shuffledTemplates = [...availableTemplates].sort(() => Math.random() - 0.5);
+    
+    // Take the number of templates we need for this type
+    // For 'all', distribute evenly among types
+    const ideasNeeded = contentType === 'all' ? Math.ceil(count / typesToInclude.length) : count;
+    const selectedTemplates = shuffledTemplates.slice(0, ideasNeeded);
+    
+    // Convert templates to ContentIdea objects
+    const newIdeas = selectedTemplates.map(template => ({
+      id: generateId(),
+      title: template.title,
+      description: template.description,
+      niche,
+      type,
+      platform,
+      textOverlay: template.textOverlay,
+      imagePrompt: template.imagePrompt,
+      caption: template.caption || ''
+    }));
+    
+    // Add to our collection
+    ideas = [...ideas, ...newIdeas];
+  }
+  
+  // If we're in 'all' mode and have too many ideas, trim to requested count
+  if (contentType === 'all' && ideas.length > count) {
+    ideas = ideas.slice(0, count);
+  }
+  
+  // Fill 'all' collections in templates for future use
+  for (const nicheKey in contentTemplates) {
+    const nicheContent = contentTemplates[nicheKey];
+    const allContent: any[] = [];
+    
+    for (const typeKey in nicheContent) {
+      if (typeKey !== 'all') {
+        allContent.push(...nicheContent[typeKey]);
+      }
+    }
+    
+    nicheContent.all = allContent;
+  }
+  
+  return ideas;
+}
