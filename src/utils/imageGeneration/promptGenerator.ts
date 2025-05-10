@@ -10,10 +10,18 @@ export function generateDetailedPrompt(promptData: {
   platform?: string; 
   textOverlay?: string;
   imagePrompt?: string;
+  niche?: string; // Add niche parameter
 }): string {
-  const { basePrompt, contentType = 'default', platform = 'both', textOverlay, imagePrompt } = promptData;
+  const { 
+    basePrompt, 
+    contentType = 'default', 
+    platform = 'both', 
+    textOverlay, 
+    imagePrompt,
+    niche // Extract niche from promptData
+  } = promptData;
   
-  console.log("Generating prompt for:", {basePrompt, contentType, platform});
+  console.log("Generating prompt for:", {basePrompt, contentType, platform, niche});
   
   // Determine if this is video content
   const isVideo = isVideoContent(basePrompt);
@@ -66,8 +74,11 @@ export function generateDetailedPrompt(promptData: {
   const creativeStyleIndex = seed % creativeVisualStyles.length;
   const creativeStyle = creativeVisualStyles[creativeStyleIndex];
   
+  // Make sure to incorporate the niche into the prompt if provided
+  const nicheReference = niche ? `for the ${niche} niche` : '';
+  
   // Enhanced prompt for more visually creative content - removed text overlay mention
-  let detailedPrompt = imagePrompt || `${creativeStyle} Create a high-quality vertical format image (9:16 ratio) for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'} about "${basePrompt}".
+  let detailedPrompt = imagePrompt || `${creativeStyle} Create a high-quality vertical format image (9:16 ratio) for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'} about "${basePrompt}" ${nicheReference}.
 Style: ${contentStyleValue}, ${platformStyleValue}.
 The image should have ONE clear visual subject with unexpected creative elements, vibrant colors, and artistic composition.
 Make it visually striking with imaginative lighting, unique perspective, and artistic flair.

@@ -6,7 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { ContentIdea } from '@/types/content';
 import { toast } from 'sonner';
 import ContentImageWithOverlay from './ContentImageWithOverlay';
-import { generateImageWithPrompt, GeneratedImage } from '@/utils/imageGeneration';
+import { generateImageWithPrompt, GeneratedImage } from '@/utils/imageGenerator';
 
 interface ContentIdeasProps {
   ideas: ContentIdea[];
@@ -41,7 +41,8 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
         }`,
         contentType: idea.type,
         platform: idea.platform,
-        imagePrompt: idea.imagePrompt
+        imagePrompt: idea.imagePrompt,
+        niche: idea.niche // Pass the niche information explicitly
       };
       
       const generatedImage = await generateImageWithPrompt(promptData);
