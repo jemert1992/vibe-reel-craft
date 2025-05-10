@@ -33,6 +33,9 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
     try {
       setGeneratingImageForId(idea.id);
       
+      // Make sure we explicitly pass the niche to ensure captions are properly contextualized
+      console.log(`Generating image for idea with niche: ${idea.niche}`);
+      
       // Create a detailed prompt based on the content idea and use provided image prompt if available
       const promptData = {
         basePrompt: `${idea.title} - ${idea.description.substring(0, 100)} - ${idea.niche} content for ${
@@ -42,7 +45,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
         contentType: idea.type,
         platform: idea.platform,
         imagePrompt: idea.imagePrompt,
-        niche: idea.niche // Pass the niche information explicitly
+        niche: idea.niche // Explicitly pass the niche
       };
       
       const generatedImage = await generateImageWithPrompt(promptData);
@@ -124,6 +127,11 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                               {idea.platform === 'both' ? 'Reels & TikTok' : 
                                 idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'}
                             </span>
+                            {idea.niche && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                {idea.niche}
+                              </span>
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-col gap-2">
