@@ -32,9 +32,11 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
     try {
       setGeneratingImageForId(idea.id);
       
-      // Generate a prompt for the image based on the idea
-      const imagePrompt = `${idea.title} - ${idea.niche} content for ${idea.platform === 'both' ? 'Instagram Reels and TikTok' : 
-        idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'}`;
+      // Generate a prompt for the image based on the idea details
+      const imagePrompt = `${idea.title} - ${idea.niche} ${idea.type} content for ${
+        idea.platform === 'both' ? 'Instagram Reels and TikTok' : 
+        idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'
+      }`;
       
       const generatedImage = await generateImageWithPrompt(imagePrompt);
       
@@ -49,6 +51,19 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
       toast.error('Failed to generate image');
     } finally {
       setGeneratingImageForId(null);
+    }
+  };
+
+  const handleSaveIdea = (idea: ContentIdea) => {
+    // If there's a generated image for this idea, include it when saving
+    if (generatedImages[idea.id]) {
+      const ideaWithImage = {
+        ...idea,
+        generatedImage: generatedImages[idea.id]
+      };
+      onSaveIdea(ideaWithImage);
+    } else {
+      onSaveIdea(idea);
     }
   };
 
@@ -98,7 +113,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                             variant={isIdeaSaved(idea) ? "default" : "outline"} 
                             size="sm"
                             className={`text-xs h-7 ${isIdeaSaved(idea) ? 'bg-social-purple hover:bg-social-dark-purple' : 'text-social-purple'}`}
-                            onClick={() => onSaveIdea(idea)}
+                            onClick={() => handleSaveIdea(idea)}
                             disabled={isIdeaSaved(idea)}
                           >
                             {isIdeaSaved(idea) ? 'Saved' : 'Save'}
