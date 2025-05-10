@@ -32,7 +32,7 @@ export function generateDetailedPrompt(promptData: {
   const platformStyleValue = platformStylesArray[platformStyleIndex] || "social-media-ready";
   
   // Parse the base prompt to extract key visual concepts
-  const keywords = basePrompt.toLowerCase().match(/before|after|comparison|vs|versus|split|tutorial|how to|top \d+|review|showcase/g) || [];
+  const keywords: string[] = basePrompt.toLowerCase().match(/before|after|comparison|vs|versus|split|tutorial|how to|top \d+|review|showcase/g) || [];
   
   // Determine specific visual approach based on keywords
   let visualApproach = "";
