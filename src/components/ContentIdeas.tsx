@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { ContentIdea } from '@/types/content';
 import { toast } from 'sonner';
 import ContentImageWithOverlay from './ContentImageWithOverlay';
-import { generateImageWithPrompt, GeneratedImage } from '@/utils/imageGenerator';
+import { generateImageWithPrompt, GeneratedImage } from '@/utils/imageGeneration';
 
 interface ContentIdeasProps {
   ideas: ContentIdea[];

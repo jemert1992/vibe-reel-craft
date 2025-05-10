@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, RefreshCw, Image as ImageIcon, Video } from 'lucide-react';
-import { GeneratedImage } from '@/utils/imageGenerator';
+import { GeneratedImage } from '@/utils/imageGeneration';
 import { toast } from 'sonner';
 
 interface ContentImageWithOverlayProps {
