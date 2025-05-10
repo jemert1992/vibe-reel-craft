@@ -54,7 +54,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
       toast.success('Image generated successfully!');
     } catch (error) {
       console.error('Failed to generate image:', error);
-      toast.error('Failed to generate image');
+      toast.error(`Failed to generate image: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setGeneratingImageForId(null);
     }

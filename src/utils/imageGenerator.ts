@@ -1,3 +1,4 @@
+
 import { toast } from "sonner";
 
 // This implementation integrates with OpenAI's DALL-E image generation
@@ -5,6 +6,9 @@ export interface GeneratedImage {
   imageUrl: string;
   promptText: string;
 }
+
+// API key for OpenAI
+const OPENAI_API_KEY = "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";
 
 // Content type styles with more specific visual modifiers
 const contentTypeStyles: Record<string, string[]> = {
@@ -112,28 +116,11 @@ export async function generateImageWithPrompt(
     console.log("Generating image with prompt:", prompt);
     console.log("Detailed prompt for AI:", detailedPrompt);
     
-    // In a real implementation, you would call the OpenAI API here
-    // For demonstration, we'll simulate the API call with a mock implementation
-    
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    
-    // For now, since we can't actually call OpenAI API without credentials,
-    // return a fallback image with the prompt text
-    const topicWords = prompt.split(' ');
-    const mainTopic = topicWords.length > 0 ? topicWords[0] : 'default';
-    
-    return {
-      imageUrl: getFallbackImage(mainTopic),
-      promptText: detailedPrompt
-    };
-    
-    /* When integrated with actual OpenAI API, replace the above with:
-    
+    // Call the OpenAI API
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${API_KEY}`,
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -149,18 +136,18 @@ export async function generateImageWithPrompt(
     const data = await response.json();
     
     if (data.error) {
-      throw new Error(data.error.message);
+      console.error("OpenAI API error:", data.error);
+      throw new Error(data.error.message || "Failed to generate image");
     }
     
     return {
       imageUrl: data.data[0].url,
       promptText: detailedPrompt
     };
-    */
     
   } catch (error) {
     console.error("Error generating image:", error);
-    toast.error("Failed to generate image");
+    toast.error("Failed to generate image. Using fallback image.");
     
     // Return a fallback image if generation fails
     return {
