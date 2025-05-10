@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, RefreshCw, Image as ImageIcon, Video, Sparkles } from 'lucide-react';
+import { Loader2, RefreshCw, Image as ImageIcon, Video, Sparkles, ThumbsDown } from 'lucide-react';
 import { GeneratedImage } from '@/utils/imageGeneration';
 import { toast } from 'sonner';
 
@@ -27,6 +27,8 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
 }) => {
   const [imageError, setImageError] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [reportedImage, setReportedImage] = useState(false);
+  const [reportReason, setReportReason] = useState<string | null>(null);
   
   // Enhanced video content detection with more keywords
   const isVideoContent = description.toLowerCase().includes('video') || 
@@ -80,6 +82,19 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
     
     const selectedCategory = imageCategories[category as keyof typeof imageCategories] || imageCategories.default;
     return selectedCategory[Math.floor(Math.random() * selectedCategory.length)];
+  };
+
+  const handleReportImage = (reason: string) => {
+    setReportedImage(true);
+    setReportReason(reason);
+    toast.success('Thank you for your feedback. We\'ll generate a better image.');
+    
+    // Auto-trigger regeneration after a short delay
+    setTimeout(() => {
+      onGenerateImage();
+      setReportedImage(false);
+      setReportReason(null);
+    }, 500);
   };
 
   return (
@@ -140,6 +155,17 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
               )}
             </button>
           )}
+          
+          {/* Image Feedback Controls */}
+          <div className="absolute bottom-2 left-2 flex space-x-1">
+            <button
+              onClick={() => handleReportImage("Not relevant to content")}
+              className="bg-white/80 hover:bg-white p-1 rounded-full shadow-sm transition-colors text-gray-700"
+              title="Report image as incorrect"
+            >
+              <ThumbsDown size={16} />
+            </button>
+          </div>
         </div>
       ) : (
         <div className="w-full max-w-md h-64 bg-gray-100 rounded-md flex flex-col items-center justify-center">
@@ -148,9 +174,16 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
         </div>
       )}
       
+      {/* Feedback message when image is reported */}
+      {reportedImage && reportReason && (
+        <div className="mt-2 text-sm text-amber-600">
+          Reported as: {reportReason}. Generating new image...
+        </div>
+      )}
+      
       <Button 
         onClick={onGenerateImage}
-        disabled={isGenerating}
+        disabled={isGenerating || reportedImage}
         className="mt-3 bg-social-purple hover:bg-social-dark-purple"
       >
         {isGenerating ? (
