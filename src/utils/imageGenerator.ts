@@ -12,16 +12,55 @@ const OPENAI_API_KEY = "sk-proj-ZOB4AoLPB5RNYYWlJYGqR25Pq7xXwnCNgQ1skj7V38-dom-d
 
 // Content type styles with more specific visual modifiers
 const contentTypeStyles: Record<string, string[]> = {
-  educational: ["infographic-style", "tutorial-steps", "explanation-diagram", "guide-visual", "informative-chart", "educational-layout", "learning-concept"],
-  entertaining: ["vibrant-colorful", "fun-playful", "humor-concept", "exciting-dynamic", "engaging-action", "trending-viral", "entertainment-mood"],
-  promotional: ["professional-clean", "sleek-minimal", "advertisement-styled", "marketing-polished", "brand-focused", "product-showcase", "promotion-aesthetic"],
+  educational: [
+    "infographic-style with clear numbered points", 
+    "step-by-step visual guide with arrows", 
+    "split-screen comparison showing right vs wrong approaches", 
+    "educational diagram with labeled components", 
+    "informative chart with data visualization",
+    "before/after demonstration of technique"
+  ],
+  entertaining: [
+    "dramatic reaction shot with exaggerated expression", 
+    "split-screen expectation vs reality comparison", 
+    "humorous scenario with vibrant colors", 
+    "trending meme format with bold text", 
+    "candid capture of an amusing moment",
+    "side-by-side transformation with dramatic contrast"
+  ],
+  promotional: [
+    "professional product showcase with clean background", 
+    "lifestyle shot showing product benefits", 
+    "before/after transformation highlighting results", 
+    "testimonial-style image with product", 
+    "aspirational scene featuring the product in use",
+    "clean product flat-lay with brand colors"
+  ],
 };
 
 // Social media platform specific styling
 const platformStyles: Record<string, string[]> = {
-  reels: ["vertical-format", "mobile-friendly", "instagram-aesthetic", "reels-style", "short-form"],
-  tiktok: ["tiktok-style", "trendy-aesthetic", "viral-look", "tiktok-format", "creative-angle"],
-  both: ["social-media-ready", "cross-platform", "viral-potential", "shareable-content", "engagement-focused"]
+  reels: [
+    "vertical 9:16 format optimized for Instagram", 
+    "clean aesthetic with soft shadows", 
+    "Instagram-friendly color palette", 
+    "lifestyle-focused composition",
+    "polished professional quality"
+  ],
+  tiktok: [
+    "bold contrasting colors for TikTok visibility", 
+    "trendy visual effects like duotone or glitch", 
+    "attention-grabbing composition", 
+    "Gen-Z aesthetic with modern elements",
+    "energetic and dynamic feel"
+  ],
+  both: [
+    "balanced aesthetic that works across platforms", 
+    "universal vertical format with central focus", 
+    "trending visual style with broad appeal", 
+    "attention-grabbing but polished composition",
+    "cross-platform optimized lighting and contrast"
+  ]
 };
 
 // Text overlay styles for different content types
@@ -68,7 +107,7 @@ function getFallbackImage(niche: string): string {
   return nicheImages[randomIndex];
 }
 
-// Generate a detailed prompt for AI image generation
+// Generate a detailed prompt for AI image generation with improved visual compatibility
 function generateDetailedPrompt(promptData: { 
   basePrompt: string; 
   contentType?: string; 
@@ -81,12 +120,27 @@ function generateDetailedPrompt(promptData: {
   // Determine if this is video content
   const isVideo = isVideoContent(basePrompt);
   
-  // Select random style elements based on content type and platform
+  // Select specific style elements based on content type and platform
   const contentStyleIndex = Math.floor(Math.random() * contentTypeStyles[contentType as keyof typeof contentTypeStyles]?.length || 1);
   const platformStyleIndex = Math.floor(Math.random() * platformStyles[platform as keyof typeof platformStyles]?.length || 1);
   
   const contentStyleValue = contentTypeStyles[contentType as keyof typeof contentTypeStyles]?.[contentStyleIndex] || "visually appealing";
   const platformStyleValue = platformStyles[platform as keyof typeof platformStyles]?.[platformStyleIndex] || "social-media-ready";
+  
+  // Parse the base prompt to extract key visual concepts
+  const keywords = basePrompt.toLowerCase().match(/before|after|comparison|vs|versus|split|tutorial|how to|top \d+|review|showcase/g) || [];
+  
+  // Determine specific visual approach based on keywords
+  let visualApproach = "";
+  
+  if (keywords.includes("before") || keywords.includes("after") || keywords.includes("comparison") || 
+      keywords.includes("vs") || keywords.includes("versus") || keywords.includes("split")) {
+    visualApproach = "Create a split-screen before/after comparison with clear visual distinction between sides. ";
+  } else if (keywords.includes("tutorial") || keywords.includes("how to") || keywords.some(k => k.match(/top \d+/))) {
+    visualApproach = "Create a step-by-step visual guide with numbered points or clear progression. ";
+  } else if (keywords.includes("review") || keywords.includes("showcase")) {
+    visualApproach = "Create a product-focused image with the item prominently displayed and its benefits visually represented. ";
+  }
   
   // Generate seed from prompt text for consistency
   const seed = basePrompt
@@ -94,19 +148,20 @@ function generateDetailedPrompt(promptData: {
     .reduce((acc, char) => acc + char.charCodeAt(0), 0) % 10000;
   
   // Use provided image prompt if available, otherwise craft detailed prompt for DALL-E
-  let detailedPrompt = imagePrompt || `Create a high-quality vertical format image (9:16 ratio) for a ${isVideo ? 'video thumbnail' : 'social media post'} about "${basePrompt}". 
+  let detailedPrompt = imagePrompt || `${visualApproach}Create a high-quality vertical format image (9:16 ratio) for a ${isVideo ? 'video thumbnail' : 'social media post'} about "${basePrompt}". 
 Style: ${contentStyleValue}, ${platformStyleValue}.
-Make it visually striking with vibrant colors and dynamic composition.
+Make it visually striking with high contrast and dynamic composition.
 Designed for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'}.
-The image should clearly relate to the topic and be highly engaging.`;
+The image should clearly communicate the concept without requiring text explanation.
+DO NOT include any text in the image itself.`;
 
-  // Add text overlay suggestion
+  // Add text overlay suggestion for guidance but not inclusion in the image
   if (textOverlay) {
-    detailedPrompt += `\nSuggested text overlay: "${textOverlay}"`;
+    detailedPrompt += `\nNote: Image will have this text overlaid separately: "${textOverlay}" (DO NOT include this text in the image itself)`;
   } else {
     const availableOverlays = textOverlayStyles[contentType as keyof typeof textOverlayStyles] || textOverlayStyles.default;
     const suggestedOverlay = availableOverlays[seed % availableOverlays.length];
-    detailedPrompt += `\nSuggested text overlay: "${suggestedOverlay}"`;
+    detailedPrompt += `\nNote: Image will have text overlaid separately (DO NOT include text in the image itself)`;
   }
   
   return detailedPrompt;

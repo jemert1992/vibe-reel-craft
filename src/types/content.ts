@@ -16,4 +16,6 @@ export interface ContentIdea {
     imageUrl: string;
     promptText: string;
   };
+  visualStyle?: string; // Added to help guide image generation
+  hashTags?: string[]; // Added for better social media integration
 }

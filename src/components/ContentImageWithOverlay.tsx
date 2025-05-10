@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, RefreshCw, Image as ImageIcon, Video } from 'lucide-react';
@@ -100,24 +101,18 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
             }}
           />
           
-          {/* Text overlay with platform-appropriate styling */}
+          {/* Text overlay with platform-appropriate styling - ENHANCED */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80 flex flex-col justify-end p-4">
-            {/* Bold, eye-catching text overlay */}
+            {/* Bold, eye-catching text overlay - Positioned more prominently */}
             <div className="absolute top-1/2 transform -translate-y-1/2 left-0 w-full px-4 text-center">
-              <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-lg break-words">
+              <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words">
                 {displayTextOverlay}
               </h2>
             </div>
             
+            {/* Title and description now visually separated from the overlay text */}
             <h3 className="text-white font-bold text-lg md:text-xl">{title}</h3>
             <p className="text-white/90 text-sm mt-1 line-clamp-2">{description}</p>
-            
-            {/* Optional caption preview */}
-            {caption && (
-              <div className="mt-2 bg-black/40 p-2 rounded text-xs text-white/80">
-                <p className="italic">"{caption.substring(0, 60)}..."</p>
-              </div>
-            )}
             
             {isVideoContent && (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 rounded-full p-4">
@@ -162,21 +157,23 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
         )}
       </Button>
       
-      {/* Caption copy section */}
+      {/* Caption section - Now clearly separated from the image */}
       {caption && generatedImage && (
         <div className="mt-3 w-full">
           <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
-            <h4 className="text-sm font-medium mb-1">Suggested Caption:</h4>
-            <p className="text-sm text-gray-600">{caption}</p>
-            <button 
-              onClick={() => {
-                navigator.clipboard.writeText(caption);
-                toast.success('Caption copied to clipboard!');
-              }}
-              className="text-xs text-social-purple hover:text-social-dark-purple mt-1"
-            >
-              Copy to clipboard
-            </button>
+            <div className="flex justify-between items-center">
+              <h4 className="text-xs font-medium text-gray-500">Caption for Posting:</h4>
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText(caption);
+                  toast.success('Caption copied to clipboard!');
+                }}
+                className="text-xs text-social-purple hover:text-social-dark-purple"
+              >
+                Copy
+              </button>
+            </div>
+            <p className="text-sm text-gray-600 mt-1">{caption}</p>
           </div>
         </div>
       )}

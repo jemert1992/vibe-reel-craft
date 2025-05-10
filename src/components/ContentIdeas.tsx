@@ -32,12 +32,9 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
     try {
       setGeneratingImageForId(idea.id);
       
-      // Use the enhanced image prompting system
-      console.log("Generating image with idea:", idea);
-      
       // Create a detailed prompt based on the content idea and use provided image prompt if available
       const promptData = {
-        basePrompt: `${idea.title} - ${idea.niche} content for ${
+        basePrompt: `${idea.title} - ${idea.description.substring(0, 100)} - ${idea.niche} content for ${
           idea.platform === 'both' ? 'Instagram and TikTok' : 
           idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'
         }`,
@@ -71,8 +68,10 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
         generatedImage: generatedImages[idea.id]
       };
       onSaveIdea(ideaWithImage);
+      toast.success('Idea saved!');
     } else {
       onSaveIdea(idea);
+      toast.success('Idea saved! Generate an image to complete your content.');
     }
   };
 
@@ -84,14 +83,16 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
   return (
     <Card className="w-full border-2 border-gray-100">
       <CardContent className="pt-6">
-        <h2 className="text-xl font-semibold mb-4">Content Ideas</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          Content Ideas {ideas.length > 0 && <span className="text-sm text-gray-500">({ideas.length})</span>}
+        </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center py-8">
             <div className="h-8 w-8 border-4 border-social-purple border-t-transparent rounded-full animate-spin"></div>
             <p className="mt-4 text-gray-500">Generating ideas...</p>
           </div>
         ) : ideas.length > 0 ? (
-          <ScrollArea className="h-[500px] pr-4">
+          <ScrollArea className="h-[600px] pr-4">
             <div className="space-y-6">
               {ideas.map((idea) => (
                 <Card key={idea.id} className="border border-gray-200 hover:border-social-purple transition-colors">
@@ -108,7 +109,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                                 'bg-purple-100 text-purple-800'}`}>
                               {idea.type.charAt(0).toUpperCase() + idea.type.slice(1)}
                             </span>
-                            <span className="text-xs text-gray-500">
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                               {idea.platform === 'both' ? 'Reels & TikTok' : 
                                 idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'}
                             </span>
@@ -121,7 +122,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                             className="text-xs h-7"
                             onClick={() => copyToClipboard(idea.description)}
                           >
-                            Copy
+                            Copy Idea
                           </Button>
                           <Button 
                             variant={isIdeaSaved(idea) ? "default" : "outline"} 
@@ -130,16 +131,16 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                             onClick={() => handleSaveIdea(idea)}
                             disabled={isIdeaSaved(idea)}
                           >
-                            {isIdeaSaved(idea) ? 'Saved' : 'Save'}
+                            {isIdeaSaved(idea) ? 'Saved' : 'Save Idea'}
                           </Button>
                         </div>
                       </div>
                       
-                      {/* Enhanced text overlay display */}
+                      {/* Enhanced text overlay display - now clearly labeled */}
                       {idea.textOverlay && (
                         <div className="mt-3 bg-gray-50 p-2 rounded-md">
                           <div className="flex justify-between items-center">
-                            <span className="text-xs text-gray-500">Suggested Text Overlay:</span>
+                            <span className="text-xs font-medium text-gray-500">Text Overlay for Image:</span>
                             <Button
                               variant="ghost"
                               size="sm"
@@ -159,16 +160,16 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         description={idea.description}
                         textOverlay={idea.textOverlay}
                         caption={idea.caption}
-                        generatedImage={generatedImages[idea.id]}
+                        generatedImage={generatedImages[idea.id] || idea.generatedImage}
                         isGenerating={generatingImageForId === idea.id}
                         onGenerateImage={() => handleGenerateImage(idea)}
                       />
                       
-                      {/* Caption section */}
+                      {/* Caption section - now labeled as "Caption for Posting" */}
                       {idea.caption && !generatedImages[idea.id] && (
                         <div className="mt-3 bg-gray-50 p-3 rounded-md border border-gray-200">
                           <div className="flex justify-between items-center">
-                            <h4 className="text-xs font-medium text-gray-500">Suggested Caption:</h4>
+                            <h4 className="text-xs font-medium text-gray-500">Caption for Posting:</h4>
                             <Button
                               variant="ghost"
                               size="sm"
