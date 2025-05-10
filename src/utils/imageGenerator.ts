@@ -69,51 +69,79 @@ function getFallbackImage(niche: string): string {
 }
 
 // Generate a detailed prompt for AI image generation
-function generateDetailedPrompt(prompt: string): string {
-  // Extract potential content type and platform from prompt
-  let contentType = prompt.toLowerCase().includes('educational') ? 'educational' : 
-                   prompt.toLowerCase().includes('entertaining') ? 'entertaining' : 'promotional';
+function generateDetailedPrompt(promptData: { 
+  basePrompt: string; 
+  contentType?: string; 
+  platform?: string; 
+  textOverlay?: string;
+  imagePrompt?: string;
+}): string {
+  const { basePrompt, contentType = 'default', platform = 'both', textOverlay, imagePrompt } = promptData;
   
-  let platform = prompt.toLowerCase().includes('reels') ? 'reels' :
-                prompt.toLowerCase().includes('tiktok') ? 'tiktok' : 'both';
-
   // Determine if this is video content
-  const isVideo = isVideoContent(prompt);
+  const isVideo = isVideoContent(basePrompt);
   
   // Select random style elements based on content type and platform
-  const contentStyleIndex = Math.floor(Math.random() * contentTypeStyles[contentType].length);
-  const platformStyleIndex = Math.floor(Math.random() * platformStyles[platform].length);
+  const contentStyleIndex = Math.floor(Math.random() * contentTypeStyles[contentType as keyof typeof contentTypeStyles]?.length || 1);
+  const platformStyleIndex = Math.floor(Math.random() * platformStyles[platform as keyof typeof platformStyles]?.length || 1);
+  
+  const contentStyleValue = contentTypeStyles[contentType as keyof typeof contentTypeStyles]?.[contentStyleIndex] || "visually appealing";
+  const platformStyleValue = platformStyles[platform as keyof typeof platformStyles]?.[platformStyleIndex] || "social-media-ready";
   
   // Generate seed from prompt text for consistency
-  const seed = prompt
+  const seed = basePrompt
     .split('')
     .reduce((acc, char) => acc + char.charCodeAt(0), 0) % 10000;
   
-  // Craft detailed prompt for DALL-E
-  let detailedPrompt = `Create a high-quality vertical format image (9:16 ratio) for a ${isVideo ? 'video thumbnail' : 'social media post'} about "${prompt}". 
-Style: ${contentTypeStyles[contentType][contentStyleIndex]}, ${platformStyles[platform][platformStyleIndex]}.
+  // Use provided image prompt if available, otherwise craft detailed prompt for DALL-E
+  let detailedPrompt = imagePrompt || `Create a high-quality vertical format image (9:16 ratio) for a ${isVideo ? 'video thumbnail' : 'social media post'} about "${basePrompt}". 
+Style: ${contentStyleValue}, ${platformStyleValue}.
 Make it visually striking with vibrant colors and dynamic composition.
 Designed for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'}.
 The image should clearly relate to the topic and be highly engaging.`;
 
   // Add text overlay suggestion
-  const textOverlays = textOverlayStyles[contentType as keyof typeof textOverlayStyles] || textOverlayStyles.default;
-  const suggestedOverlay = textOverlays[seed % textOverlays.length];
-  
-  detailedPrompt += `\nSuggested text overlay: "${suggestedOverlay}"`;
+  if (textOverlay) {
+    detailedPrompt += `\nSuggested text overlay: "${textOverlay}"`;
+  } else {
+    const availableOverlays = textOverlayStyles[contentType as keyof typeof textOverlayStyles] || textOverlayStyles.default;
+    const suggestedOverlay = availableOverlays[seed % availableOverlays.length];
+    detailedPrompt += `\nSuggested text overlay: "${suggestedOverlay}"`;
+  }
   
   return detailedPrompt;
 }
 
 // Generate image using OpenAI's DALL-E API
 export async function generateImageWithPrompt(
-  prompt: string,
+  prompt: string | {
+    basePrompt: string;
+    contentType?: string;
+    platform?: string;
+    textOverlay?: string;
+    imagePrompt?: string;
+  },
   size: { width: number; height: number } = { width: 1024, height: 1792 }  // 9:16 aspect ratio
 ): Promise<GeneratedImage> {
   try {
+    // Handle different prompt inputs (string or object)
+    let promptData: {
+      basePrompt: string;
+      contentType?: string;
+      platform?: string;
+      textOverlay?: string;
+      imagePrompt?: string;
+    };
+    
+    if (typeof prompt === 'string') {
+      promptData = { basePrompt: prompt };
+    } else {
+      promptData = prompt;
+    }
+    
     // Create a detailed prompt for better image quality and relevance
-    const detailedPrompt = generateDetailedPrompt(prompt);
-    console.log("Generating image with prompt:", prompt);
+    const detailedPrompt = generateDetailedPrompt(promptData);
+    console.log("Generating image with prompt:", promptData.basePrompt);
     console.log("Detailed prompt for AI:", detailedPrompt);
     
     // Call the OpenAI API
@@ -150,9 +178,12 @@ export async function generateImageWithPrompt(
     toast.error("Failed to generate image. Using fallback image.");
     
     // Return a fallback image if generation fails
+    const basePrompt = typeof prompt === 'string' ? prompt : prompt.basePrompt;
+    const niche = basePrompt.split(' ')[0] || "default";
+    
     return {
-      imageUrl: getFallbackImage(prompt.split(' ')[0] || "default"),
-      promptText: prompt
+      imageUrl: getFallbackImage(niche),
+      promptText: typeof prompt === 'string' ? prompt : prompt.basePrompt
     };
   }
 }

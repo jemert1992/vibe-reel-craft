@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -31,20 +32,22 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
     try {
       setGeneratingImageForId(idea.id);
       
-      // Create a detailed prompt based on the content idea
-      let basePrompt = "";
+      // Use the enhanced image prompting system
+      console.log("Generating image with idea:", idea);
       
-      // Include niche, content type, and platform information for better context
-      basePrompt = `${idea.title} - ${idea.niche} content for ${
-        idea.platform === 'both' ? 'Instagram and TikTok' : 
-        idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'
-      } as a ${idea.type} ${
-        idea.description.toLowerCase().includes('video') ? 'video thumbnail' : 'social media post'
-      }`;
+      // Create a detailed prompt based on the content idea and use provided image prompt if available
+      const promptData = {
+        basePrompt: `${idea.title} - ${idea.niche} content for ${
+          idea.platform === 'both' ? 'Instagram and TikTok' : 
+          idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'
+        }`,
+        contentType: idea.type,
+        platform: idea.platform,
+        textOverlay: idea.textOverlay,
+        imagePrompt: idea.imagePrompt
+      };
       
-      console.log("Generating image with prompt:", basePrompt);
-      
-      const generatedImage = await generateImageWithPrompt(basePrompt);
+      const generatedImage = await generateImageWithPrompt(promptData);
       
       setGeneratedImages(prev => ({
         ...prev,
@@ -73,6 +76,11 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
     }
   };
 
+  const handleCopyCaption = (caption: string) => {
+    navigator.clipboard.writeText(caption);
+    toast.success('Caption copied to clipboard!');
+  };
+
   return (
     <Card className="w-full border-2 border-gray-100">
       <CardContent className="pt-6">
@@ -83,7 +91,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
             <p className="mt-4 text-gray-500">Generating ideas...</p>
           </div>
         ) : ideas.length > 0 ? (
-          <ScrollArea className="h-[400px] pr-4">
+          <ScrollArea className="h-[500px] pr-4">
             <div className="space-y-6">
               {ideas.map((idea) => (
                 <Card key={idea.id} className="border border-gray-200 hover:border-social-purple transition-colors">
@@ -93,14 +101,14 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         <div>
                           <h3 className="font-semibold text-base">{idea.title}</h3>
                           <p className="text-sm text-gray-600 mt-1">{idea.description}</p>
-                          <div className="mt-2 flex items-center">
+                          <div className="mt-2 flex items-center flex-wrap gap-2">
                             <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium 
                               ${idea.type === 'educational' ? 'bg-blue-100 text-blue-800' : 
                                 idea.type === 'entertaining' ? 'bg-green-100 text-green-800' :
                                 'bg-purple-100 text-purple-800'}`}>
                               {idea.type.charAt(0).toUpperCase() + idea.type.slice(1)}
                             </span>
-                            <span className="text-xs text-gray-500 ml-2">
+                            <span className="text-xs text-gray-500">
                               {idea.platform === 'both' ? 'Reels & TikTok' : 
                                 idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'}
                             </span>
@@ -127,14 +135,52 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         </div>
                       </div>
                       
+                      {/* Enhanced text overlay display */}
+                      {idea.textOverlay && (
+                        <div className="mt-3 bg-gray-50 p-2 rounded-md">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-gray-500">Suggested Text Overlay:</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 text-xs"
+                              onClick={() => copyToClipboard(idea.textOverlay || '')}
+                            >
+                              Copy
+                            </Button>
+                          </div>
+                          <p className="text-sm font-bold mt-1">{idea.textOverlay}</p>
+                        </div>
+                      )}
+                      
                       {/* Image generation section */}
                       <ContentImageWithOverlay
                         title={idea.title}
                         description={idea.description}
+                        textOverlay={idea.textOverlay}
+                        caption={idea.caption}
                         generatedImage={generatedImages[idea.id]}
                         isGenerating={generatingImageForId === idea.id}
                         onGenerateImage={() => handleGenerateImage(idea)}
                       />
+                      
+                      {/* Caption section */}
+                      {idea.caption && !generatedImages[idea.id] && (
+                        <div className="mt-3 bg-gray-50 p-3 rounded-md border border-gray-200">
+                          <div className="flex justify-between items-center">
+                            <h4 className="text-xs font-medium text-gray-500">Suggested Caption:</h4>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 text-xs"
+                              onClick={() => handleCopyCaption(idea.caption || '')}
+                            >
+                              Copy
+                            </Button>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1">{idea.caption}</p>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

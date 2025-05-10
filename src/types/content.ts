@@ -9,6 +9,9 @@ export interface ContentIdea {
   niche: string;
   type: ContentType;
   platform: Platform;
+  textOverlay?: string;
+  imagePrompt?: string;
+  caption?: string;
   generatedImage?: {
     imageUrl: string;
     promptText: string;

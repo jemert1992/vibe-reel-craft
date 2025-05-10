@@ -1,12 +1,14 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, RefreshCw, Image as ImageIcon, Video } from 'lucide-react';
 import { GeneratedImage } from '@/utils/imageGenerator';
+import { toast } from 'sonner';
 
 interface ContentImageWithOverlayProps {
   title: string;
   description: string;
+  textOverlay?: string;
+  caption?: string;
   onImageGenerated?: (image: GeneratedImage) => void;
   generatedImage?: GeneratedImage;
   isGenerating: boolean;
@@ -16,6 +18,8 @@ interface ContentImageWithOverlayProps {
 const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
   title,
   description,
+  textOverlay,
+  caption,
   generatedImage,
   isGenerating,
   onGenerateImage
@@ -72,49 +76,12 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
       category = 'fitness';
     }
     
-    const selectedCategory = imageCategories[category] || imageCategories.default;
+    const selectedCategory = imageCategories[category as keyof typeof imageCategories] || imageCategories.default;
     return selectedCategory[Math.floor(Math.random() * selectedCategory.length)];
   };
 
-  // Generate an engagement-boosting text overlay based on content
-  const generateTextOverlay = () => {
-    // Extract keywords from title
-    const titleWords = title.split(' ');
-    let overlayText = '';
-    
-    // If title already has a number (like "5 Tips..."), use it as is
-    if (/\d+/.test(title) && title.length < 25) {
-      overlayText = title;
-    } 
-    // If title is a "How to" guide
-    else if (title.toLowerCase().includes('how to')) {
-      overlayText = title.length < 25 ? title : `LEARN THIS NOW! 🔥`;
-    } 
-    // Create curiosity-driven overlay
-    else if (titleWords.length > 5) {
-      // Take first few words and add hook
-      const shortTitle = titleWords.slice(0, 3).join(' ');
-      overlayText = `${shortTitle}... REVEALED! 👀`;
-    } 
-    // Default case - short and punchy
-    else {
-      overlayText = `${title} 🔥`;
-    }
-    
-    // Add emoji for engagement if none exists
-    if (!overlayText.match(/[\u{1F300}-\u{1F6FF}]/u)) {
-      // Add relevant emoji based on content
-      if (description.toLowerCase().includes('tips')) overlayText += ' 💡';
-      else if (description.toLowerCase().includes('secret')) overlayText += ' 🤫';
-      else if (description.toLowerCase().includes('amazing')) overlayText += ' 🤩';
-      else overlayText += ' ✨';
-    }
-    
-    return overlayText;
-  };
-
-  // Only generate overlay text if we have an image
-  const textOverlay = generatedImage ? generateTextOverlay() : '';
+  // Use provided text overlay or generate one if missing
+  const displayTextOverlay = textOverlay || `${title.split(' ').slice(0, 3).join(' ')}... ✨`;
 
   return (
     <div className="flex flex-col items-center mt-4">
@@ -138,12 +105,19 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
             {/* Bold, eye-catching text overlay */}
             <div className="absolute top-1/2 transform -translate-y-1/2 left-0 w-full px-4 text-center">
               <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-lg break-words">
-                {textOverlay}
+                {displayTextOverlay}
               </h2>
             </div>
             
             <h3 className="text-white font-bold text-lg md:text-xl">{title}</h3>
             <p className="text-white/90 text-sm mt-1 line-clamp-2">{description}</p>
+            
+            {/* Optional caption preview */}
+            {caption && (
+              <div className="mt-2 bg-black/40 p-2 rounded text-xs text-white/80">
+                <p className="italic">"{caption.substring(0, 60)}..."</p>
+              </div>
+            )}
             
             {isVideoContent && (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 rounded-full p-4">
@@ -187,6 +161,25 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
           </>
         )}
       </Button>
+      
+      {/* Caption copy section */}
+      {caption && generatedImage && (
+        <div className="mt-3 w-full">
+          <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
+            <h4 className="text-sm font-medium mb-1">Suggested Caption:</h4>
+            <p className="text-sm text-gray-600">{caption}</p>
+            <button 
+              onClick={() => {
+                navigator.clipboard.writeText(caption);
+                toast.success('Caption copied to clipboard!');
+              }}
+              className="text-xs text-social-purple hover:text-social-dark-purple mt-1"
+            >
+              Copy to clipboard
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
