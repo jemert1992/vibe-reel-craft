@@ -36,6 +36,13 @@ const contentTypeStyles: Record<string, string[]> = {
     "aspirational scene featuring the product in use",
     "clean product flat-lay with brand colors"
   ],
+  all: [  // Adding "all" type to match ContentType options
+    "versatile composition with clear subject focus",
+    "balanced visual with informative elements",
+    "engaging scene that communicates the core message",
+    "striking visual that captures attention immediately",
+    "professional quality image with versatile appeal"
+  ]
 };
 
 // Social media platform specific styling
@@ -68,6 +75,7 @@ const textOverlayStyles: Record<string, string[]> = {
   educational: ["Learn This!", "5 Tips You Need!", "Did You Know?", "THIS CHANGES EVERYTHING", "Secret Technique"],
   entertaining: ["WAIT FOR IT", "Watch This!", "You Won't Believe", "I Was Shocked!", "This Actually Works"],
   promotional: ["NEW DROP", "Limited Time Only!", "Exclusive Offer", "Don't Miss Out!", "Game Changer"],
+  all: ["MUST SEE", "Trending Now", "Viral Hack", "Life Changing", "Mind Blown"],
   default: ["MUST SEE", "Trending Now", "Viral Hack", "Life Changing", "Mind Blown"]
 };
 
@@ -121,11 +129,19 @@ function generateDetailedPrompt(promptData: {
   const isVideo = isVideoContent(basePrompt);
   
   // Select specific style elements based on content type and platform
-  const contentStyleIndex = Math.floor(Math.random() * contentTypeStyles[contentType as keyof typeof contentTypeStyles]?.length || 1);
-  const platformStyleIndex = Math.floor(Math.random() * platformStyles[platform as keyof typeof platformStyles]?.length || 1);
+  // Make sure the contentType exists in contentTypeStyles, if not use 'default' as fallback
+  const contentTypeLookup = contentType as keyof typeof contentTypeStyles;
+  const platformLookup = platform as keyof typeof platformStyles;
   
-  const contentStyleValue = contentTypeStyles[contentType as keyof typeof contentTypeStyles]?.[contentStyleIndex] || "visually appealing";
-  const platformStyleValue = platformStyles[platform as keyof typeof platformStyles]?.[platformStyleIndex] || "social-media-ready";
+  // Safely access the style arrays with fallbacks
+  const contentStyleArray = contentTypeStyles[contentTypeLookup] || contentTypeStyles.all || [];
+  const platformStyleArray = platformStyles[platformLookup] || platformStyles.both || [];
+  
+  const contentStyleIndex = Math.floor(Math.random() * contentStyleArray.length);
+  const platformStyleIndex = Math.floor(Math.random() * platformStyleArray.length);
+  
+  const contentStyleValue = contentStyleArray[contentStyleIndex] || "visually appealing";
+  const platformStyleValue = platformStyleArray[platformStyleIndex] || "social-media-ready";
   
   // Parse the base prompt to extract key visual concepts
   const keywords = basePrompt.toLowerCase().match(/before|after|comparison|vs|versus|split|tutorial|how to|top \d+|review|showcase/g) || [];
@@ -159,7 +175,9 @@ DO NOT include any text in the image itself.`;
   if (textOverlay) {
     detailedPrompt += `\nNote: Image will have this text overlaid separately: "${textOverlay}" (DO NOT include this text in the image itself)`;
   } else {
-    const availableOverlays = textOverlayStyles[contentType as keyof typeof textOverlayStyles] || textOverlayStyles.default;
+    // Safely access text overlay styles
+    const textOverlayLookup = contentType as keyof typeof textOverlayStyles;
+    const availableOverlays = textOverlayStyles[textOverlayLookup] || textOverlayStyles.default;
     const suggestedOverlay = availableOverlays[seed % availableOverlays.length];
     detailedPrompt += `\nNote: Image will have text overlaid separately (DO NOT include text in the image itself)`;
   }
