@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, RefreshCw, Image as ImageIcon, Video } from 'lucide-react';
+import { Loader2, RefreshCw, Image as ImageIcon, Video, Sparkles } from 'lucide-react';
 import { GeneratedImage } from '@/utils/imageGeneration';
 import { toast } from 'sonner';
 
@@ -26,6 +26,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
   onGenerateImage
 }) => {
   const [imageError, setImageError] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
   
   // Enhanced video content detection with more keywords
   const isVideoContent = description.toLowerCase().includes('video') || 
@@ -101,29 +102,54 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
             }}
           />
           
-          {/* Enhanced text overlay styling for better visibility and impact */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 flex flex-col justify-between p-4">
-            {/* Bold, eye-catching text overlay - Positioned at the top for better visibility */}
-            <div className="w-full px-2 pt-2 text-center">
-              <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words bg-black/30 py-1 px-2 rounded-md inline-block">
-                {displayTextOverlay}
-              </h2>
-            </div>
-            
-            {/* Title and description at the bottom */}
-            <div>
-              <h3 className="text-white font-bold text-lg md:text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">{title}</h3>
-              <p className="text-white/90 text-sm mt-1 line-clamp-2 drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">{description}</p>
-            </div>
-            
-            {isVideoContent && (
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 rounded-full p-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
+          {/* Optional text overlay with toggle */}
+          {showOverlay && textOverlay && (
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 flex flex-col justify-between p-4">
+              {/* Bold, eye-catching text overlay - Positioned at the top for better visibility */}
+              <div className="w-full px-2 pt-2 text-center">
+                <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words bg-black/30 py-1 px-2 rounded-md inline-block">
+                  {displayTextOverlay}
+                </h2>
               </div>
-            )}
-          </div>
+              
+              {/* Title and description at the bottom */}
+              <div>
+                <h3 className="text-white font-bold text-lg md:text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">{title}</h3>
+                <p className="text-white/90 text-sm mt-1 line-clamp-2 drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">{description}</p>
+              </div>
+              
+              {isVideoContent && (
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 rounded-full p-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Toggle overlay button */}
+          {textOverlay && (
+            <button 
+              onClick={() => setShowOverlay(prev => !prev)} 
+              className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full hover:bg-black/70 transition-colors"
+              title={showOverlay ? "Hide text overlay" : "Show text overlay"}
+            >
+              {showOverlay ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                  <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                  <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                  <line x1="2" x2="22" y1="2" y2="22"></line>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              )}
+            </button>
+          )}
         </div>
       ) : (
         <div className="w-full max-w-md h-64 bg-gray-100 rounded-md flex flex-col items-center justify-center">
@@ -147,12 +173,12 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
             {generatedImage ? (
               <>
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Regenerate {isVideoContent ? "Thumbnail" : "Image"}
+                Regenerate {isVideoContent ? "Creative Thumbnail" : "Creative Image"}
               </>
             ) : (
               <>
-                <IconComponent className="mr-2 h-4 w-4" />
-                Generate {isVideoContent ? "Thumbnail" : "Image"}
+                <Sparkles className="mr-2 h-4 w-4" />
+                Generate {isVideoContent ? "Creative Thumbnail" : "Creative Image"}
               </>
             )}
           </>

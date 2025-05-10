@@ -60,7 +60,7 @@ const Index = () => {
         <div className="md:hidden mb-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid grid-cols-2 mb-4">
-              <TabsTrigger value="generator">Generator</TabsTrigger>
+              <TabsTrigger value="generator">Creative Generator</TabsTrigger>
               <TabsTrigger value="saved">
                 Saved <span className="ml-1 text-xs">({savedIdeas.length})</span>
               </TabsTrigger>

@@ -51,13 +51,26 @@ export function generateDetailedPrompt(promptData: {
     .split('')
     .reduce((acc, char) => acc + char.charCodeAt(0), 0) % 10000;
   
-  // Enhanced prompt for simpler, more visually focused content
-  let detailedPrompt = imagePrompt || `${visualApproach}Create a high-quality vertical format image (9:16 ratio) with a SINGLE focal point for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'} about "${basePrompt}".
+  // Enhanced creative visual approaches
+  const creativeVisualStyles = [
+    "Create a surreal, dreamlike scene with fantastical elements and unexpected juxtapositions.",
+    "Design a whimsical, highly stylized image with exaggerated proportions and playful perspective.",
+    "Generate an ethereal, magical atmosphere with glowing elements and enchanting light effects.",
+    "Create a bold, graphic art style with high contrast colors and simplified shapes.",
+    "Design a cinematic, dramatic scene with theatrical lighting and emotional impact."
+  ];
+  
+  // Select a creative style based on seed for consistency
+  const creativeStyleIndex = seed % creativeVisualStyles.length;
+  const creativeStyle = creativeVisualStyles[creativeStyleIndex];
+  
+  // Enhanced prompt for more visually creative content
+  let detailedPrompt = imagePrompt || `${creativeStyle} Create a high-quality vertical format image (9:16 ratio) for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'} about "${basePrompt}".
 Style: ${contentStyleValue}, ${platformStyleValue}.
-The image should have ONE clear visual subject, vibrant colors, and a clean background.
-Make it visually striking with high contrast and dramatic lighting to maximize engagement.
-Ensure there's space in the top third for text overlay.
-The image should clearly communicate the concept without requiring text explanation.
+The image should have ONE clear visual subject with unexpected creative elements, vibrant colors, and artistic composition.
+Make it visually striking with imaginative lighting, unique perspective, and artistic flair.
+Incorporate surreal or fantastical elements that relate to the concept in an unexpected way.
+The image should stand alone as a compelling visual story without requiring text explanation.
 DO NOT include any text in the image itself.`;
 
   // Add text overlay suggestion for guidance but not inclusion in the image

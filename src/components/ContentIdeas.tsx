@@ -51,7 +51,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
         [idea.id]: generatedImage
       }));
       
-      toast.success('Image generated successfully!');
+      toast.success('Creative image generated successfully!');
     } catch (error) {
       console.error('Failed to generate image:', error);
       toast.error(`Failed to generate image: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -68,10 +68,10 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
         generatedImage: generatedImages[idea.id]
       };
       onSaveIdea(ideaWithImage);
-      toast.success('Idea saved!');
+      toast.success('Creative idea saved!');
     } else {
       onSaveIdea(idea);
-      toast.success('Idea saved! Generate an image to complete your content.');
+      toast.success('Idea saved! Generate a creative image to complete your content.');
     }
   };
 
@@ -83,19 +83,22 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
   return (
     <Card className="w-full border-2 border-gray-100">
       <CardContent className="pt-6">
-        <h2 className="text-xl font-semibold mb-4">
-          Content Ideas {ideas.length > 0 && <span className="text-sm text-gray-500">({ideas.length})</span>}
-        </h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">
+            Creative Content Ideas {ideas.length > 0 && <span className="text-sm text-gray-500">({ideas.length})</span>}
+          </h2>
+        </div>
+        
         {loading ? (
           <div className="flex flex-col items-center justify-center py-8">
             <div className="h-8 w-8 border-4 border-social-purple border-t-transparent rounded-full animate-spin"></div>
-            <p className="mt-4 text-gray-500">Generating ideas...</p>
+            <p className="mt-4 text-gray-500">Generating creative ideas...</p>
           </div>
         ) : ideas.length > 0 ? (
           <ScrollArea className="h-[600px] pr-4">
             <div className="space-y-6">
               {ideas.map((idea) => (
-                <Card key={idea.id} className="border border-gray-200 hover:border-social-purple transition-colors">
+                <Card key={idea.id} className="border border-gray-200 hover:border-social-purple transition-colors overflow-hidden">
                   <CardContent className="p-4">
                     <div className="flex flex-col">
                       <div className="flex justify-between items-start">
@@ -140,7 +143,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                       {idea.textOverlay && (
                         <div className="mt-3 bg-gray-50 p-2 rounded-md">
                           <div className="flex justify-between items-center">
-                            <span className="text-xs font-medium text-gray-500">Text Overlay for Image:</span>
+                            <span className="text-xs font-medium text-gray-500">Optional Text Overlay:</span>
                             <Button
                               variant="ghost"
                               size="sm"
@@ -190,7 +193,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
           </ScrollArea>
         ) : (
           <div className="flex flex-col items-center justify-center py-8">
-            <p className="text-gray-500">Select a niche and generate to see ideas</p>
+            <p className="text-gray-500">Select a niche and generate to see creative ideas</p>
           </div>
         )}
       </CardContent>
