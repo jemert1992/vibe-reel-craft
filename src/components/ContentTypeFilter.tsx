@@ -2,10 +2,11 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ContentType } from '@/types/content';
 
 interface ContentTypeFilterProps {
-  contentType: string;
-  setContentType: (type: string) => void;
+  contentType: ContentType;
+  setContentType: (type: ContentType) => void;
 }
 
 const ContentTypeFilter = ({
@@ -19,7 +20,7 @@ const ContentTypeFilter = ({
         <Tabs
           defaultValue="all"
           value={contentType}
-          onValueChange={setContentType}
+          onValueChange={(value: string) => setContentType(value as ContentType)}
           className="w-full"
         >
           <TabsList className="w-full grid grid-cols-4 h-auto">
