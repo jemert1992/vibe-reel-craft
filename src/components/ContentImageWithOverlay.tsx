@@ -26,7 +26,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
   onGenerateImage
 }) => {
   const [imageError, setImageError] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(false); // Changed to false by default
+  const [showOverlay, setShowOverlay] = useState(false);
   
   // Enhanced video content detection with more keywords
   const isVideoContent = description.toLowerCase().includes('video') || 
@@ -82,9 +82,6 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
     return selectedCategory[Math.floor(Math.random() * selectedCategory.length)];
   };
 
-  // Use provided text overlay or generate one if missing
-  const displayTextOverlay = textOverlay || `${title.split(' ').slice(0, 3).join(' ')}... ✨`;
-
   return (
     <div className="flex flex-col items-center mt-4">
       {generatedImage ? (
@@ -105,13 +102,6 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
           {/* Optional text overlay with toggle - only shown when explicitly enabled */}
           {showOverlay && textOverlay && (
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 flex flex-col justify-between p-4">
-              {/* Bold, eye-catching text overlay - Positioned at the top for better visibility */}
-              <div className="w-full px-2 pt-2 text-center">
-                <h2 className="text-white font-extrabold text-xl md:text-2xl tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] break-words bg-black/30 py-1 px-2 rounded-md inline-block">
-                  {displayTextOverlay}
-                </h2>
-              </div>
-              
               {/* Title and description at the bottom */}
               <div>
                 <h3 className="text-white font-bold text-lg md:text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">{title}</h3>
@@ -185,26 +175,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
         )}
       </Button>
       
-      {/* Caption section with improved styling and expanded content */}
-      {caption && generatedImage && (
-        <div className="mt-3 w-full">
-          <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
-            <div className="flex justify-between items-center">
-              <h4 className="text-xs font-medium text-gray-500">Caption for Posting:</h4>
-              <button 
-                onClick={() => {
-                  navigator.clipboard.writeText(caption);
-                  toast.success('Caption copied to clipboard!');
-                }}
-                className="text-xs text-social-purple hover:text-social-dark-purple"
-              >
-                Copy
-              </button>
-            </div>
-            <p className="text-sm text-gray-600 mt-1">{caption}</p>
-          </div>
-        </div>
-      )}
+      {/* Caption section removed from here - it's now handled in the parent component */}
     </div>
   );
 };
