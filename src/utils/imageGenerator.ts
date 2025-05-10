@@ -1,8 +1,8 @@
 
 import { toast } from "sonner";
-import { generateDetailedPrompt } from './promptGenerator';
-import { getFallbackImage } from './utilities';
-import { GeneratedImage } from './types';
+import { generateDetailedPrompt } from './imageGeneration/promptGenerator';
+import { getFallbackImage } from './imageGeneration/utilities';
+import { GeneratedImage } from './imageGeneration/types';
 
 // API key for OpenAI
 const OPENAI_API_KEY = "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";
@@ -85,3 +85,6 @@ export async function generateImageWithPrompt(
     };
   }
 }
+
+// Export the GeneratedImage type
+export type { GeneratedImage };
