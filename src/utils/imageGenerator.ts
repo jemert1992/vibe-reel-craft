@@ -1,5 +1,6 @@
 
 import { toast } from "sonner";
+import { ContentType, Platform } from "@/types/content";
 
 // This implementation integrates with OpenAI's DALL-E image generation
 export interface GeneratedImage {
@@ -11,7 +12,7 @@ export interface GeneratedImage {
 const OPENAI_API_KEY = "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";
 
 // Content type styles with more specific visual modifiers
-const contentTypeStyles: Record<string, string[]> = {
+const contentTypeStyles: Record<ContentType | string, string[]> = {
   educational: [
     "infographic-style with clear numbered points", 
     "step-by-step visual guide with arrows", 
@@ -36,7 +37,7 @@ const contentTypeStyles: Record<string, string[]> = {
     "aspirational scene featuring the product in use",
     "clean product flat-lay with brand colors"
   ],
-  all: [  // Adding "all" type to match ContentType options
+  all: [
     "versatile composition with clear subject focus",
     "balanced visual with informative elements",
     "engaging scene that communicates the core message",
@@ -46,7 +47,7 @@ const contentTypeStyles: Record<string, string[]> = {
 };
 
 // Social media platform specific styling
-const platformStyles: Record<string, string[]> = {
+const platformStyles: Record<Platform | string, string[]> = {
   reels: [
     "vertical 9:16 format optimized for Instagram", 
     "clean aesthetic with soft shadows", 
@@ -71,7 +72,7 @@ const platformStyles: Record<string, string[]> = {
 };
 
 // Text overlay styles for different content types
-const textOverlayStyles: Record<string, string[]> = {
+const textOverlayStyles: Record<ContentType | string, string[]> = {
   educational: ["Learn This!", "5 Tips You Need!", "Did You Know?", "THIS CHANGES EVERYTHING", "Secret Technique"],
   entertaining: ["WAIT FOR IT", "Watch This!", "You Won't Believe", "I Was Shocked!", "This Actually Works"],
   promotional: ["NEW DROP", "Limited Time Only!", "Exclusive Offer", "Don't Miss Out!", "Game Changer"],
@@ -129,7 +130,7 @@ function generateDetailedPrompt(promptData: {
   const isVideo = isVideoContent(basePrompt);
   
   // Select specific style elements based on content type and platform
-  // Make sure the contentType exists in contentTypeStyles, if not use 'default' as fallback
+  // Make sure the contentType exists in contentTypeStyles, if not use 'all' as fallback
   const contentTypeLookup = contentType as keyof typeof contentTypeStyles;
   const platformLookup = platform as keyof typeof platformStyles;
   
