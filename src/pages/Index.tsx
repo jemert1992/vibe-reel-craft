@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { ContentIdea, ContentType, Platform } from "@/types/content";
 import Header from "@/components/Header";

@@ -36,11 +36,21 @@ const NicheSelector = ({
 
   const applyCustomNiche = () => {
     if (customNiche.trim()) {
-      setSelectedNiche(customNiche.trim());
-      toast.success(`Custom niche "${customNiche}" selected!`);
-      console.log("Custom niche selected:", customNiche);
+      const trimmedNiche = customNiche.trim();
+      setSelectedNiche(trimmedNiche);
+      setCustomNiche(trimmedNiche); // Ensure the trimmed value is used consistently
+      toast.success(`Custom niche "${trimmedNiche}" selected!`);
+      console.log("Custom niche selected:", trimmedNiche);
     } else {
       toast.error("Please enter a custom niche first");
+    }
+  };
+
+  // Handle pressing Enter in the custom niche input field
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      applyCustomNiche();
     }
   };
 
@@ -58,7 +68,10 @@ const NicheSelector = ({
                   ? "bg-social-purple hover:bg-social-dark-purple"
                   : ""
               }`}
-              onClick={() => setSelectedNiche(niche)}
+              onClick={() => {
+                setSelectedNiche(niche);
+                console.log("Predefined niche selected:", niche);
+              }}
             >
               {niche}
             </Button>
@@ -74,6 +87,7 @@ const NicheSelector = ({
               placeholder="E.g. Sustainable Fashion"
               value={inputValue}
               onChange={handleCustomNicheChange}
+              onKeyDown={handleKeyDown}
               className="flex-1"
             />
             <Button
