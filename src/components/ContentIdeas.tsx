@@ -18,6 +18,7 @@ interface ContentIdeasProps {
 const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasProps) => {
   const [generatingImageForId, setGeneratingImageForId] = useState<string | null>(null);
   const [generatedImages, setGeneratedImages] = useState<Record<string, GeneratedImage>>({});
+  const [expandedIdeas, setExpandedIdeas] = useState<Record<string, boolean>>({});
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -77,6 +78,13 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
   const handleCopyCaption = (caption: string) => {
     navigator.clipboard.writeText(caption);
     toast.success('Caption copied to clipboard!');
+  };
+
+  const toggleExpand = (ideaId: string) => {
+    setExpandedIdeas(prev => ({
+      ...prev,
+      [ideaId]: !prev[ideaId]
+    }));
   };
 
   return (
@@ -149,7 +157,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         onGenerateImage={() => handleGenerateImage(idea)}
                       />
                       
-                      {/* Caption section - always shown with expanded content */}
+                      {/* Caption section - always shown if caption exists */}
                       {idea.caption && (
                         <div className="mt-3 bg-gray-50 p-3 rounded-md border border-gray-200">
                           <div className="flex justify-between items-center">
