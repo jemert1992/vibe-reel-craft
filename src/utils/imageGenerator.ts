@@ -154,14 +154,14 @@ function generateDetailedPrompt(promptData: {
   
   // Safely get style arrays with proper type checking
   const contentStyles = contentTypeStyles[contentTypeKey] || contentTypeStyles.default;
-  const platformStyles = platformStyles[platformKey] || platformStyles.default;
+  const platformStylesArray = platformStyles[platformKey] || platformStyles.default;
   
-  // Safely get random styles
+  // Safely get random styles with bounds checking
   const contentStyleIndex = Math.floor(Math.random() * contentStyles.length);
-  const platformStyleIndex = Math.floor(Math.random() * platformStyles.length);
+  const platformStyleIndex = Math.floor(Math.random() * platformStylesArray.length);
   
   const contentStyleValue = contentStyles[contentStyleIndex] || "visually appealing";
-  const platformStyleValue = platformStyles[platformStyleIndex] || "social-media-ready";
+  const platformStyleValue = platformStylesArray[platformStyleIndex] || "social-media-ready";
   
   // Parse the base prompt to extract key visual concepts
   const keywords = basePrompt.toLowerCase().match(/before|after|comparison|vs|versus|split|tutorial|how to|top \d+|review|showcase/g) || [];
@@ -196,10 +196,9 @@ DO NOT include any text in the image itself.`;
     detailedPrompt += `\nNote: Image will have this text overlaid separately: "${textOverlay}" (DO NOT include this text in the image itself)`;
   } else {
     // Safely access text overlay styles
-    const textOverlayKey = (contentType as StyleContentType) || 'default';
-    const overlayStyles = textOverlayStyles[textOverlayKey] || textOverlayStyles.default;
-    const overlayIndex = seed % overlayStyles.length;
-    const suggestedOverlay = overlayStyles[overlayIndex] || "MUST SEE";
+    const textOverlayArray = textOverlayStyles[contentTypeKey] || textOverlayStyles.default;
+    const overlayIndex = seed % textOverlayArray.length;
+    const suggestedOverlay = textOverlayArray[overlayIndex] || "MUST SEE";
     detailedPrompt += `\nNote: Image will have text overlaid separately (DO NOT include text in the image itself)`;
   }
   
