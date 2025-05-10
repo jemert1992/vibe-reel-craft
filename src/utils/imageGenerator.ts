@@ -1,3 +1,4 @@
+
 import { toast } from "sonner";
 
 // This is an improved implementation that generates more relevant images for social media posts
@@ -12,7 +13,7 @@ export interface GeneratedImage {
 const imageCategories: Record<string, string[]> = {
   Fitness: ["fitness-workout", "gym-routine", "exercise-form", "sports-action", "healthy-lifestyle", "weight-training", "yoga-pose"],
   Beauty: ["makeup-tutorial", "skincare-routine", "beauty-products", "fashion-style", "hair-styling", "cosmetics-flatlay", "beauty-influencer"],
-  Food: ["food-photography", "cooking-action", "recipe-ingredients", "food-plating", "baking-desserts", "meal-prep", "restaurant-dish"],
+  Food: ["food-photography", "cooking-action", "recipe-ingredients", "food-plating", "baking-desserts", "meal-prep", "restaurant-dish", "chef-cooking", "food-presentation"],
   Travel: ["travel-destination", "vacation-spot", "adventure-landscape", "tourist-landmark", "hotel-luxury", "beach-sunset", "city-skyline"],
   Tech: ["technology-gadget", "computer-setup", "smartphone-app", "digital-lifestyle", "tech-review", "electronics-new", "coding-screen"],
   DIY: ["crafts-creative", "diy-project", "homemade-creation", "artistic-process", "handmade-item", "workshop-tools", "creative-workspace"],
@@ -22,6 +23,13 @@ const imageCategories: Record<string, string[]> = {
   Parenting: ["parenting-moments", "kids-activities", "family-time", "children-playing", "baby-milestone", "motherhood-lifestyle", "family-home"],
   // Default categories with social media specific imagery
   default: ["social-media-content", "content-creation", "creative-flatlay", "influencer-lifestyle", "trending-topic", "viral-concept", "social-media-post"]
+};
+
+// Media type modifiers to help with image relevance
+const mediaTypeModifiers: Record<string, string[]> = {
+  video: ["video-thumbnail", "tutorial-screenshot", "demonstration-image", "how-to-guide", "step-by-step", "instructional"],
+  image: ["social-media-image", "post-visual", "instagram-worthy", "shareable-graphic", "visual-content"],
+  text: ["quote-graphic", "text-overlay", "typography-design", "message-visual", "statement-graphic"],
 };
 
 // Enhanced content type styles with more specific visual modifiers
@@ -38,6 +46,34 @@ const platformStyles: Record<string, string[]> = {
   both: ["social-media-ready", "cross-platform", "viral-potential", "shareable-content", "engagement-focused"]
 };
 
+// Default image URLs by category for when Unsplash fails
+const defaultImages: Record<string, string[]> = {
+  Food: [
+    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?auto=format&fit=crop&q=80&w=1000"
+  ],
+  // Add more categories as needed
+  default: [
+    "https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1534531173927-aeb928d54385?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&q=80&w=1000"
+  ]
+};
+
+// Check if the prompt contains video-related keywords
+function isVideoContent(prompt: string): boolean {
+  const videoKeywords = ['video', 'film', 'record', 'shoot', 'tutorial', 'step-by-step', 'how to'];
+  return videoKeywords.some(keyword => prompt.toLowerCase().includes(keyword));
+}
+
+// Get a fallback image based on the niche
+function getFallbackImage(niche: string): string {
+  const nicheImages = defaultImages[niche] || defaultImages.default;
+  const randomIndex = Math.floor(Math.random() * nicheImages.length);
+  return nicheImages[randomIndex];
+}
+
 // Generate a more relevant image URL based on the idea content
 export async function generateImageWithPrompt(
   prompt: string,
@@ -48,6 +84,7 @@ export async function generateImageWithPrompt(
     let niche = "default";
     let contentType = "entertaining"; // Default to entertaining for social media
     let platform = "both";
+    let mediaType = isVideoContent(prompt) ? "video" : "image";
     
     // Extract niche from prompt
     for (const potentialNiche of Object.keys(imageCategories)) {
@@ -81,11 +118,13 @@ export async function generateImageWithPrompt(
     const nicheKeywords = imageCategories[niche] || imageCategories.default;
     const styleKeywords = contentTypeStyles[contentType] || [];
     const platformKeywords = platformStyles[platform] || [];
+    const mediaTypeKeywords = mediaTypeModifiers[mediaType] || [];
     
     // Create more targeted keyword combination
     const mainKeyword = nicheKeywords[seed % nicheKeywords.length];
     const styleKeyword = styleKeywords.length > 0 ? styleKeywords[seed % styleKeywords.length] : '';
     const platformKeyword = platformKeywords.length > 0 ? platformKeywords[seed % platformKeywords.length] : '';
+    const mediaTypeKeyword = mediaTypeKeywords.length > 0 ? mediaTypeKeywords[seed % mediaTypeKeywords.length] : '';
     
     // Extract key topic from the prompt (first 2-3 words or a specific phrase)
     let topicKeyword = "";
@@ -106,8 +145,11 @@ export async function generateImageWithPrompt(
       mainKeyword,
       styleKeyword,
       platformKeyword,
-      "social-media"
+      mediaTypeKeyword,
+      niche.toLowerCase()
     ].filter(Boolean).join(",");
+    
+    console.log("Generated image search terms:", searchTerms);
     
     // Use Unsplash source with multiple search terms for better relevance
     // Add parameters for high-quality, relevant content ideal for social media
@@ -115,8 +157,6 @@ export async function generateImageWithPrompt(
     
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    console.log("Generated image URL with search terms:", searchTerms);
     
     return {
       imageUrl,
@@ -128,3 +168,4 @@ export async function generateImageWithPrompt(
     throw error;
   }
 }
+
