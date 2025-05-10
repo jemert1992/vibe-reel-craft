@@ -174,8 +174,6 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
           </>
         )}
       </Button>
-      
-      {/* Caption section removed from here - it's now handled in the parent component */}
     </div>
   );
 };

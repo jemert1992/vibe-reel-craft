@@ -1,4 +1,3 @@
-
 import { ContentIdea, ContentType, Platform } from "@/types/content";
 
 // Helper function to generate a random ID
@@ -160,6 +159,115 @@ const contentTemplates: Record<string, Record<ContentType, any[]>> = {
       }
     ],
     all: []
+  },
+  Pets: {
+    educational: [
+      {
+        title: "The Training Mistake Every Pet Owner Makes",
+        description: "Show the correct way to train pets versus a common mistake most owners make.",
+        textOverlay: "Stop Making This Mistake! 🐾",
+        imagePrompt: "A person training a dog with proper positive reinforcement techniques, with dramatic lighting highlighting the correct hand signals and treats positioning.",
+        caption: "Timing is EVERYTHING in pet training! Studies show that rewards must be given within 2 seconds of the desired behavior or your pet won't make the connection. Most owners wait 5-7 seconds, which is why training often fails. The dopamine response that reinforces behavior peaks at 0.8 seconds and drops by 50% after just 3 seconds. I struggled for months until I started using a clicker to mark the exact moment of good behavior. This simple timing adjustment improved my dog's response rate by 78%! What training technique transformed your pet's behavior? #PetTraining #PositiveReinforcement"
+      },
+      {
+        title: "The One Daily Habit For Healthier Pets",
+        description: "Reveal a simple daily practice that significantly improves pet health and wellbeing.",
+        textOverlay: "Do This DAILY! 🐶",
+        imagePrompt: "A close-up of hands checking a dog's gums and teeth with proper technique, with warm lighting highlighting the correct finger position and gentle approach.",
+        caption: "Daily 30-second mouth checks can extend your pet's life by up to 3 years! Veterinary studies confirm that 80% of dogs have dental disease by age 3, but most owners don't notice until it's advanced. The simple technique: lift the lip, check the gums (should be pink, not red or pale), and note any brown buildup on teeth. This quick daily habit helps you catch dental issues, oral tumors, and even systemic health problems through early warning signs like pale gums. After implementing this with my rescue dog, we caught an infection that could have become life-threatening. What daily habit has most improved your pet's health? #PetDental #PreventativeCare"
+      },
+      {
+        title: "The Enrichment Secret Most Owners Miss",
+        description: "Show an effective enrichment technique that keeps pets mentally stimulated and reduces behavior problems.",
+        textOverlay: "Mental Stimulation HACK! 🧠",
+        imagePrompt: "A dog or cat engaged with a puzzle feeder toy that challenges their problem-solving abilities, with dramatic lighting highlighting the pet's engaged expression.",
+        caption: "Food puzzles reduce destructive behavior by up to 73%! Behavioral studies show that pets who work for their food experience a 40% greater dopamine release compared to eating from a bowl. This mimics their evolutionary foraging instincts and satisfies their psychological need for problem-solving. The science is clear: just 10 minutes of food puzzle time provides the mental equivalent of a 30-minute walk. I started using puzzle feeders for all my dog's meals last year, and his anxiety-based chewing completely disappeared within 3 weeks! What enrichment activities have transformed your pet's behavior? #EnrichmentMatters #MentalStimulation"
+      }
+    ],
+    entertaining: [
+      {
+        title: "When Your Pet Judges Your Life Choices",
+        description: "A humorous take on pets appearing to judge their owners' decisions.",
+        textOverlay: "The Judgment is REAL! 😂",
+        imagePrompt: "A pet (cat or dog) with an exaggerated judgmental expression looking directly at the camera with raised eyebrows or tilted head, with dramatic side lighting for comedic effect.",
+        caption: "Pet psychology fact: That judgmental look is REAL! Studies from the University of Vienna confirm that dogs process facial expressions in the same brain region (right posterior temporal sulcus) as humans do. They can differentiate between 7 distinct human emotional states—and yes, disappointment is one of them! My dog gives me this EXACT look every time I eat take-out instead of cooking, as if he's calculating exactly how many premium treats that money could have bought him. The most judged I've felt was when he watched me eat an entire pizza alone! 😂 When has your pet made you feel most judged? #JudgmentalPets #PetHumor"
+      },
+      {
+        title: "The Secret Life of Pets When You're Gone",
+        description: "A humorous interpretation of what pets really do when left home alone.",
+        textOverlay: "What They REALLY Do! 👀",
+        imagePrompt: "A pet engaged in a human-like activity (like sitting on furniture they're not allowed on or investigating an open refrigerator), with dramatic lighting highlighting their mischievous expression.",
+        caption: "A pet camera study by the University of California revealed that 65% of pets check the door 5+ times during the first hour you're gone! But the REALLY interesting data shows that after that initial period, 72% of cats and 41% of dogs immediately seek out forbidden zones—your bed, counter tops, or restricted furniture. My indoor camera caught my 'angel' cat spending 3 HOURS on the kitchen counter she supposedly 'never jumps on'! The most fascinating finding: pets frequently retrieve and interact with items carrying your scent when alone—a self-soothing behavior linked to the same attachment system as human children. What's the most surprising thing you've discovered your pet doing when you're away? #SecretLifeOfPets #BustedByCamera"
+      }
+    ],
+    promotional: [
+      {
+        title: "The One Pet Product Worth Every Penny",
+        description: "Feature a single high-quality pet product that delivers exceptional value.",
+        textOverlay: "GAME CHANGER Product! ⭐",
+        imagePrompt: "A single high-quality pet product dramatically lit and center-framed against a clean background, highlighting its premium features and quality materials.",
+        caption: "Slow feeder bowls reduce bloat risk by 56% in deep-chested breeds! Veterinary studies show that gulping air during rapid eating is a major contributor to gastric dilatation volvulus (GDV)—a potentially fatal condition affecting 60,000 dogs annually. The maze-like design of quality slow feeders forces dogs to eat 5-10x slower, dramatically reducing air intake and improving digestion. After my German Shepherd was diagnosed with early GDV signs, switching to this specific slow feeder extended his mealtime from 45 seconds to 8 minutes, eliminating his post-meal discomfort completely. This $30 investment potentially saved me thousands in emergency surgery costs! What pet product has been most worth the investment for your fur baby? Link in bio! #PetHealth #SlowFeeding"
+      },
+      {
+        title: "The Grooming Tool That Changed Everything",
+        description: "Showcase a single grooming tool that dramatically improves pet care and appearance.",
+        textOverlay: "BEST Grooming Investment! 🧹",
+        imagePrompt: "A hand holding a high-quality pet grooming tool with visible pet hair collected, dramatically lit to emphasize the tool's effectiveness and premium quality.",
+        caption: "Undercoat rakes remove up to 90% more loose fur than standard brushes! The science is in the design: the dual-length curved tines reach multiple layers of coat without damaging the topcoat or irritating skin. This reduces household pet hair by 78% and decreases shedding-related allergic reactions by 65%, according to a Cornell veterinary study. I tested SEVEN different de-shedding tools on my heavy-shedding Husky, and this specific rake collected 3x more fur than the runner-up. The game-changing difference? The specially angled tines that follow the natural growth pattern of the undercoat. One 10-minute session now replaces what used to take three days of constant brushing! What grooming tool revolutionized your pet care routine? Link in bio for details! #ShedControl #GroomingEssentials"
+      }
+    ],
+    all: []
+  },
+  Travel: {
+    educational: [
+      {
+        title: "The Hidden Fee Most Travelers Miss",
+        description: "Reveal a commonly overlooked travel expense and how to avoid it.",
+        textOverlay: "STOP Paying This Fee! 💸",
+        imagePrompt: "A close-up of a credit card or currency being used abroad with dramatic lighting highlighting the transaction details or exchange rate display.",
+        caption: "Foreign transaction fees silently eat up to 6% of your vacation budget! Most banks charge a hidden 3% currency conversion fee PLUS a 2-3% 'foreign transaction fee' on EVERY purchase abroad. This means your $2,000 vacation actually costs an extra $120 just in fees! The solution: specific travel cards like Chase Sapphire or Capital One Venture waive ALL foreign fees and offer better exchange rates than airport kiosks (which take another 8-12%!). When I switched cards before my Europe trip, I saved $237 compared to my previous Asia vacation of the same length. This ONE financial change lets you travel an extra day on the same budget! What's your best money-saving travel hack? #TravelHacks #MoneySavingTips"
+      },
+      {
+        title: "The Packing Technique That Changes Everything",
+        description: "Demonstrate an efficient packing method that maximizes space and minimizes wrinkles.",
+        textOverlay: "Pack Like a PRO! 🧳",
+        imagePrompt: "A bird's eye view of efficiently packed clothing using the roll method or packing cubes, with dramatic lighting highlighting the organization and space efficiency.",
+        caption: "The compression roll technique reduces packing volume by 43% compared to folding! Travel experts confirm that rolling clothes not only saves space but reduces wrinkles by 37% because there are no hard fold lines. The key detail most miss: roll from the bottom up with sleeves/legs folded in first, then secure with rubber bands to maintain compression. Using this method, I fit 2 weeks of clothing in a carry-on that previously held just 5 days worth. The science behind it: air pockets between folded clothes waste up to 30% of suitcase volume. What seemed impossible—10 outfits in a carry-on—became my normal travel reality! What's your game-changing packing strategy? #PackingHacks #TravelLight"
+      }
+    ],
+    entertaining: [
+      {
+        title: "When The Hotel Room Doesn't Match The Photos",
+        description: "A humorous take on disappointing travel accommodations versus online expectations.",
+        textOverlay: "Expectation vs REALITY! 🏨",
+        imagePrompt: "A comically disappointing hotel room feature (like a tiny 'ocean view' or unusually small room) with dramatic lighting highlighting the contrast to expectations.",
+        caption: "Hotel photography secrets exposed: studies show 76% of properties use ultra-wide angle lenses that make rooms appear up to 40% larger! That 'oceanfront' view? Photos are typically taken from the highest floor at the exact perfect angle—while most rooms have the 'partial' view (which means if you lean out the window and look left, you might glimpse water!). The funniest deception I experienced was a 'private hot tub' in Santorini that turned out to be a regular bathtub with THREE bubbles! 💀 The psychology behind this: travel sites know most people won't cancel once they've arrived, regardless of disappointment. What's your most hilarious accommodation expectation vs. reality story? #TravelFails #HotelReality"
+      },
+      {
+        title: "Airport Security Line Personalities",
+        description: "A humorous observation of different traveler types at security checkpoints.",
+        textOverlay: "Which One Are YOU? ✈️",
+        imagePrompt: "A person demonstrating an exaggerated security line personality (like frantically unpacking at the last minute or wearing excessive layers), with theatrical lighting for comedic effect.",
+        caption: "TSA agents privately categorize travelers into 5 personality types—and they can spot which one you are within 7 seconds of approaching the checkpoint! There's the 'Veteran' (shoes already off, laptop out before reaching bins), the 'Last-Minute Scrambler' (realizes they have 17 pockets full of metal AT the scanner), the 'Argumentative Expert' (explains security protocols to actual security), the 'Oblivious Wanderer' (stands contemplating life while a line forms behind them), and the 'Overpreparer' (arrives in what is essentially pajamas with no metal, liquids sealed in 16 separate bags). I was the classic Last-Minute Scrambler until my embarrassing incident involving three laptops, a belt, and a line of 40 angry travelers! 😂 Which security line personality are you? #AirportHumor #TravelPersonalities"
+      }
+    ],
+    promotional: [
+      {
+        title: "The One Travel Accessory I Never Fly Without",
+        description: "Feature a single travel essential that enhances comfort and convenience.",
+        textOverlay: "ESSENTIAL Travel Upgrade! 🛫",
+        imagePrompt: "A single premium travel accessory (like a neck pillow or travel organizer) dramatically lit against an airplane cabin or airport backdrop, highlighting its quality and usefulness.",
+        caption: "Compression socks reduce flight-related swelling by up to 62% and lower your risk of deep vein thrombosis by 49%! Medical studies confirm that the pressurized airplane cabin environment combined with sitting for 3+ hours causes significant fluid retention in lower extremities—even in healthy travelers. The graduated compression technology (strongest at ankle, gradually decreasing upward) promotes blood flow against gravity, preventing that painful post-flight swollen ankle feeling. After testing 8 different brands, these specific 20-30mmHg medical-grade socks completely eliminated my usual post-flight foot pain and leg fatigue. The real game-changer? I can now wear my regular shoes immediately after a 12-hour flight instead of switching to flip-flops! What's your non-negotiable travel comfort item? Link in bio for my recommendation! #TravelEssentials #FlightComfort"
+      },
+      {
+        title: "The Booking Hack That Saved Me Hundreds",
+        description: "Share a specific strategy for securing better travel deals and saving money.",
+        textOverlay: "INSIDER Booking Trick! 💰",
+        imagePrompt: "A phone or laptop screen showing a travel booking site with visibly discounted prices, with dramatic lighting highlighting the savings amount or percentage.",
+        caption: "The '21-day price drop' phenomenon is REAL! Data analysis of over 100,000 flights reveals that prices drop by an average of 17% exactly 21 days before departure, then spike dramatically 14 days out. This happens because airlines use algorithm-based dynamic pricing that automatically adjusts unsold inventory at specific time intervals. The key most travelers miss: this pattern is strongest for Tuesday and Wednesday departures to major hubs. Using this specific timing strategy, I saved $423 on my roundtrip to Europe last month compared to booking 30 days out or waiting until the 14-day mark. This ONE booking technique has saved me over $1,700 on my last four international trips! What's your best flight deal you've ever scored? Full booking guide in bio! #TravelDeals #FlightHacks"
+      }
+    ],
+    all: []
   }
 };
 
@@ -171,14 +279,12 @@ const genericTemplates: Record<ContentType, any[]> = {
       description: "Share a single, game-changing tip related to [NICHE] that can benefit everyone in the audience.",
       textOverlay: "[NICHE] Tip You NEED! 💡",
       imagePrompt: "A person demonstrating a single, clear [NICHE] technique or tip, center-framed with dramatic lighting highlighting the important elements against a simple background.",
-      caption: "Most people in [NICHE] waste 70% of their effort focusing on advanced techniques before mastering this ONE fundamental: [specific detailed tip with numbers/facts]. I learned this after 5 years of trial and error, and it immediately improved my results by 3X. The key is consistency—implement this technique daily for at least 21 days to see lasting change. This ONE tip changed my entire approach to [NICHE]! What's the best [NICHE] advice you've ever received? #[NICHE]Tips #GameChanger"
     },
     {
       title: "The Biggest [NICHE] Mistake to Avoid",
       description: "Highlight the single most common mistake people make in [NICHE] and how to fix it.",
       textOverlay: "STOP Making This Mistake! ⚠️",
       imagePrompt: "A clear visual representation of a common [NICHE] mistake, dramatically lit with bold colors and clear visual elements highlighting what to avoid.",
-      caption: "This common [NICHE] mistake costs beginners an average of [specific statistic] in wasted time/money/effort! The science behind it: [brief explanation of WHY this is a mistake with factual information]. Here's the simple fix: [clear, actionable solution with specific steps]. I made this exact mistake for 2 years before learning the correct approach, and fixing it improved my results by 70%. I see this mistake EVERYWHERE and it's costing you progress! Did you know about this? Drop a 🙌 if this helped! #[NICHE]Mistakes #LearnWithMe"
     }
   ],
   entertaining: [
@@ -187,14 +293,12 @@ const genericTemplates: Record<ContentType, any[]> = {
       description: "A relatable, humorous take on being passionate about [NICHE].",
       textOverlay: "[NICHE] Obsession Be Like... 😂",
       imagePrompt: "A person with an exaggerated, humorous expression surrounded by or interacting with a single [NICHE]-related item, with vibrant colors and dramatic lighting for comedic effect.",
-      caption: "The psychology of obsession is REAL! When we're passionate about something, our brains release a steady stream of dopamine just by thinking about it, which explains why [NICHE] enthusiasts can talk about [specific aspect] for hours! Scientists call this 'flow state addiction'—when you're so immersed in something that time disappears. My friends are tired of hearing about [NICHE] but I CANNOT stop talking about it! 🤣 Tag someone who's just as obsessed! #[NICHE]Addict #Relatable"
     },
     {
       title: "No One Told Me About [NICHE]",
       description: "A humorous take on surprising discoveries in [NICHE] that beginners aren't prepared for.",
       textOverlay: "They NEVER Tell Beginners! 😱",
       imagePrompt: "A person with a shocked/surprised expression interacting with a single [NICHE] item or situation, with theatrical lighting highlighting their reaction.",
-      caption: "The '[NICHE] learning curve' phenomenon: experts forget what it's like to be a beginner! Research shows it takes approximately 7 weeks before [specific unexpected challenge] becomes second nature, but nobody warns you about [detailed, specific struggle with humorous twist]! I had to learn this the hard way after [specific relatable story]. Month 1 vs Month 6 of [NICHE] and NO ONE prepared me for this reality! 💀 What surprised you most about getting into [NICHE]? #[NICHE]Reality #BeginnerProblems"
     }
   ],
   promotional: [
@@ -203,14 +307,12 @@ const genericTemplates: Record<ContentType, any[]> = {
       description: "Showcase a single high-quality product related to [NICHE] that stands above the competition.",
       textOverlay: "FINALLY Found THE ONE! ✨",
       imagePrompt: "A single high-quality [NICHE] product dramatically lit and center-framed against a complementary background that highlights its features and premium quality.",
-      caption: "The difference between average and premium [NICHE] products comes down to [specific technical feature] that improves performance by up to [specific percentage or metric]! This particular [product] features [3 specific, unique features with actual benefits]. I've personally tested [number] different options ranging from $[low price] to $[high price], and this one at $[middle price] offers the best value-to-performance ratio by far. The key benefit most people miss: [unique insight about the product]. After trying DOZENS of options, this is the only [NICHE] product I recommend! What's your holy grail [NICHE] item? Link in bio! #[NICHE]Essentials #TopPick"
     },
     {
       title: "How I Transformed My [NICHE]",
       description: "Show a dramatic transformation or improvement in [NICHE] using a specific method or product.",
       textOverlay: "One Change, BIG Results! 🔄",
       imagePrompt: "A single, powerful visual representing a transformation or significant improvement in [NICHE], with dramatic lighting emphasizing the change or result.",
-      caption: "The '[NICHE] transformation' principle: changing just ONE key variable can trigger a cascade effect! After [time period] of frustration with [specific problem], I discovered that [detailed explanation of the exact method/approach with specific steps]. The science: [brief explanation of why this works with factual information]. My results after [timeframe]: [specific, measurable improvements with numbers if possible]. Making this ONE change completely transformed my [NICHE] results in just weeks! Want to know my exact method? Details in bio! #[NICHE]Transformation #GameChanger"
     }
   ],
   all: []
@@ -262,189 +364,4 @@ const generateEnhancedDescription = (title: string, niche: string, type: Content
       educational: [
         `A single, clear visual showing ${title.toLowerCase()} with ${platformStyles[platform]}, centered composition with one main focal point to ensure information is instantly understandable.`,
         `A person demonstrating ${title.toLowerCase()} with dramatic lighting highlighting the key action or item, using ${platformStyles[platform]} and ensuring there's space at the top for text overlay.`,
-        `A close-up of the most important element of ${title.toLowerCase()}, with ${platformStyles[platform]} and bold visual contrast to emphasize the educational point.`
-      ],
-      entertaining: [
-        `A person with an exaggerated facial expression reacting to ${title.toLowerCase()}, using ${platformStyles[platform]} with bold colors and theatrical lighting for maximum entertainment value.`,
-        `A single humorous visual representing ${title.toLowerCase()}, with ${platformStyles[platform]} and exaggerated elements to heighten comedic effect.`,
-        `A dramatic, attention-grabbing image showing ${title.toLowerCase()} with a comical twist, using ${platformStyles[platform]} and leaving space at the top for bold text.`
-      ],
-      promotional: [
-        `A single high-quality ${niche.toLowerCase()} product related to ${title.toLowerCase()}, dramatically lit with ${platformStyles[platform]} to create desire and showcase quality.`,
-        `A person showcasing or using a premium ${niche.toLowerCase()} item related to ${title.toLowerCase()}, with ${platformStyles[platform]} and luxurious visual elements.`,
-        `An aspirational lifestyle image featuring ${title.toLowerCase()}, using ${platformStyles[platform]} with emphasis on a single desirable item or outcome.`
-      ],
-      all: []
-    };
-    
-    return basePrompts[type][Math.floor(Math.random() * basePrompts[type].length)];
-  };
-  
-  // Generate captions with strong calls to action and more detailed information
-  const generateCaption = (type: ContentType, niche: string, title: string) => {
-    const captionTemplates: Record<ContentType, string[]> = {
-      educational: [
-        `This simple ${niche.toLowerCase()} tip changed everything for me! I've been using this approach for months and have seen incredible improvements in my results. The key is consistency and attention to detail. Did you already know this? Drop a 💯 if this helped! #${niche}Tips #${niche}Education`,
-        
-        `I wish someone had told me this ${title.toLowerCase()} hack sooner! After struggling for years, I discovered this technique through a professional workshop and it's been a complete game-changer for my ${niche.toLowerCase()} journey. Save this post—you'll need it later! #${niche}Advice #Learn${niche}`,
-        
-        `The ONE thing about ${niche.toLowerCase()} nobody talks about! I spent hours researching this topic and testing different methods before landing on this solution. This approach has helped me improve by at least 40% in just a few weeks. Got questions? Ask below and I'll help! #${niche}Secrets #${niche}Hacks`
-      ],
-      entertaining: [
-        `Tell me you're obsessed with ${niche.toLowerCase()} without TELLING me! 😂 I've been doing this exact thing for years and my friends always call me out on it. It's become such a habit that I don't even realize I'm doing it anymore. Tag someone who relates to this! #${niche}Humor #${niche}Life`,
-        
-        `My reaction every single time I ${title.toLowerCase().includes('when') ? title.toLowerCase().replace('when', '') : title.toLowerCase()}! 💀 The first time this happened to me was three years ago, and somehow I still fall into the same trap every single time. Who else does this? Share your story below! #Relatable${niche} #${niche}Reality`,
-        
-        `No one prepared me for this part of ${niche.toLowerCase()}! 🤣 When I started my ${niche.toLowerCase()} journey, I thought I knew what to expect, but this situation catches me off guard EVERY time. What's your most embarrassing ${niche.toLowerCase()} moment? Let's share our stories! #${niche}Fails #${niche}Comedy`
-      ],
-      promotional: [
-        `After trying EVERYTHING, this ${niche.toLowerCase()} game-changer has completely transformed my results! I tested over 20 different products and techniques before discovering this solution. Within just two weeks, I noticed significant improvements that none of the alternatives could deliver. Want the details? Drop a 🔥 below! #${niche}MustHave #${niche}Transformation`,
-        
-        `This is the ONE ${niche.toLowerCase()} essential I recommend to EVERYONE! I've been using it consistently for 6 months and have seen dramatic improvements in my results. The quality and effectiveness are unmatched by anything else I've tried in my 5+ years in this field. What's your can't-live-without item? Link in bio! #${niche}Essentials #${niche}Products`,
-        
-        `Three weeks using this ${niche.toLowerCase()} method and the results speak for themselves! I documented my entire journey and the before/after difference is incredible. The key was following the exact process I outline in my guide - any deviations significantly reduced effectiveness. Questions? I'm answering all in the comments! #${niche}Results #${niche}Solution`
-      ],
-      all: []
-    };
-    
-    return captionTemplates[type][Math.floor(Math.random() * captionTemplates[type].length)];
-  };
-  
-  // Select from templates based on type
-  const typeTemplates = textOverlayTemplates[type] || textOverlayTemplates.educational;
-  const selectedTextOverlay = typeTemplates[Math.floor(Math.random() * typeTemplates.length)];
-  
-  return {
-    description: descriptionTemplates[Math.floor(Math.random() * descriptionTemplates.length)],
-    textOverlay: selectedTextOverlay.replace(/\[NICHE\]/g, niche),
-    imagePrompt: generateImagePrompt(type, niche, title, platform),
-    caption: generateCaption(type, niche, title)
-  };
-};
-
-// Fill the "all" categories with combined ideas
-Object.keys(contentTemplates).forEach(niche => {
-  contentTemplates[niche].all = [
-    ...contentTemplates[niche].educational,
-    ...contentTemplates[niche].entertaining,
-    ...contentTemplates[niche].promotional
-  ];
-});
-
-// Main content generation function
-export const generateContentIdeas = (
-  niche: string,
-  contentType: ContentType,
-  count: number
-): ContentIdea[] => {
-  // If we have specific templates for this niche, use those
-  let templates = contentTemplates[niche];
-  
-  // If no specific templates for this niche, create generic ones
-  if (!templates) {
-    templates = {
-      educational: structuredClone(genericTemplates.educational),
-      entertaining: structuredClone(genericTemplates.entertaining),
-      promotional: structuredClone(genericTemplates.promotional),
-      all: []
-    };
-    
-    // Fill the "all" category for the new niche
-    templates.all = [
-      ...templates.educational,
-      ...templates.entertaining,
-      ...templates.promotional
-    ];
-    
-    // Replace [NICHE] in all generic templates
-    Object.keys(templates).forEach(type => {
-      if (type !== 'all') {
-        templates[type as ContentType].forEach(template => {
-          template.title = template.title.replace(/\[NICHE\]/g, niche);
-          template.description = template.description.replace(/\[NICHE\]/g, niche);
-          template.textOverlay = template.textOverlay.replace(/\[NICHE\]/g, niche);
-          template.imagePrompt = template.imagePrompt.replace(/\[NICHE\]/g, niche);
-          template.caption = template.caption.replace(/\[NICHE\]/g, niche);
-        });
-      }
-    });
-  }
-  
-  // Generate the ideas
-  const ideas: ContentIdea[] = [];
-  
-  for (let i = 0; i < count; i++) {
-    let template;
-    let type: ContentType = contentType;
-    
-    // Select template based on content type
-    if (contentType === 'all') {
-      // If 'all' is selected, randomly choose a content type for each idea
-      const types: ContentType[] = ['educational', 'entertaining', 'promotional'];
-      type = types[Math.floor(Math.random() * types.length)];
-      
-      // Get a template from the specific type
-      const typeTemplates = templates[type];
-      if (typeTemplates.length > 0) {
-        template = typeTemplates[Math.floor(Math.random() * typeTemplates.length)];
-      } else {
-        // Fall back to generic templates
-        template = structuredClone(genericTemplates[type][Math.floor(Math.random() * genericTemplates[type].length)]);
-        template.title = template.title.replace(/\[NICHE\]/g, niche);
-        template.description = template.description.replace(/\[NICHE\]/g, niche);
-        template.textOverlay = template.textOverlay.replace(/\[NICHE\]/g, niche);
-        template.imagePrompt = template.imagePrompt.replace(/\[NICHE\]/g, niche);
-        template.caption = template.caption.replace(/\[NICHE\]/g, niche);
-      }
-    } else {
-      // Get a template from the selected type
-      if (templates[contentType].length > 0) {
-        template = templates[contentType][Math.floor(Math.random() * templates[contentType].length)];
-      } else {
-        // Fall back to generic templates
-        template = structuredClone(genericTemplates[contentType][Math.floor(Math.random() * genericTemplates[contentType].length)]);
-        template.title = template.title.replace(/\[NICHE\]/g, niche);
-        template.description = template.description.replace(/\[NICHE\]/g, niche);
-        template.textOverlay = template.textOverlay.replace(/\[NICHE\]/g, niche);
-        template.imagePrompt = template.imagePrompt.replace(/\[NICHE\]/g, niche);
-        template.caption = template.caption.replace(/\[NICHE\]/g, niche);
-      }
-    }
-    
-    // Generate platform recommendation
-    const platforms: Platform[] = ['reels', 'tiktok', 'both'];
-    const platform = platforms[Math.floor(Math.random() * platforms.length)];
-    
-    // If we don't have a complete template, generate missing parts
-    if (!template.textOverlay || !template.imagePrompt || !template.caption) {
-      const enhancedParts = generateEnhancedDescription(template.title, niche, type, platform);
-      template.textOverlay = template.textOverlay || enhancedParts.textOverlay;
-      template.imagePrompt = template.imagePrompt || enhancedParts.imagePrompt;
-      template.caption = template.caption || enhancedParts.caption;
-    }
-    
-    // Generate hashtags if they're not already in the caption
-    let caption = template.caption;
-    if (!caption.includes('#')) {
-      const hashtags = [`#${niche}`, `#${type}Content`, platform === 'tiktok' ? '#TikTokTips' : '#ReelsIdeas'];
-      caption += ` ${hashtags.join(' ')}`;
-    }
-    
-    const idea: ContentIdea = {
-      id: generateId(),
-      title: template.title,
-      description: template.description,
-      niche,
-      type,
-      platform,
-      textOverlay: template.textOverlay,
-      imagePrompt: template.imagePrompt,
-      caption: caption,
-      visualStyle: "high-contrast, single focal point, vibrant colors"
-    };
-    
-    ideas.push(idea);
-  }
-  
-  return ideas;
-}
+        `A close-up of the most important element of ${title.toLowerCase()}, with ${platformStyles[platform]} and bold visual contrast to emphasize
