@@ -130,17 +130,19 @@ function generateDetailedPrompt(promptData: {
   const isVideo = isVideoContent(basePrompt);
   
   // Select specific style elements based on content type and platform
-  // Make sure the contentType exists in contentTypeStyles, if not use 'all' as fallback
-  const contentTypeLookup = contentType as keyof typeof contentTypeStyles;
-  const platformLookup = platform as keyof typeof platformStyles;
+  // Ensure we have valid content type and platform lookups with fallbacks
+  const contentTypeKey = contentType as ContentType | string;
+  const platformKey = platform as Platform | string;
   
-  // Safely access the style arrays with fallbacks
-  const contentStyleArray = contentTypeStyles[contentTypeLookup] || contentTypeStyles.all || [];
-  const platformStyleArray = platformStyles[platformLookup] || platformStyles.both || [];
+  // Get style arrays with fallbacks to prevent "never" type errors
+  const contentStyleArray = contentTypeStyles[contentTypeKey] || contentTypeStyles.all || [];
+  const platformStyleArray = platformStyles[platformKey] || platformStyles.both || [];
   
+  // Safely get random styles with bounds checking
   const contentStyleIndex = Math.floor(Math.random() * contentStyleArray.length);
   const platformStyleIndex = Math.floor(Math.random() * platformStyleArray.length);
   
+  // Use array access with fallbacks to prevent errors
   const contentStyleValue = contentStyleArray[contentStyleIndex] || "visually appealing";
   const platformStyleValue = platformStyleArray[platformStyleIndex] || "social-media-ready";
   
@@ -177,9 +179,10 @@ DO NOT include any text in the image itself.`;
     detailedPrompt += `\nNote: Image will have this text overlaid separately: "${textOverlay}" (DO NOT include this text in the image itself)`;
   } else {
     // Safely access text overlay styles
-    const textOverlayLookup = contentType as keyof typeof textOverlayStyles;
-    const availableOverlays = textOverlayStyles[textOverlayLookup] || textOverlayStyles.default;
-    const suggestedOverlay = availableOverlays[seed % availableOverlays.length];
+    const textOverlayKey = contentType as ContentType | string;
+    const availableOverlays = textOverlayStyles[textOverlayKey] || textOverlayStyles.default || [];
+    const overlayIndex = seed % availableOverlays.length;
+    const suggestedOverlay = availableOverlays[overlayIndex] || "MUST SEE";
     detailedPrompt += `\nNote: Image will have text overlaid separately (DO NOT include text in the image itself)`;
   }
   
