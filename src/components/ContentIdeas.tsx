@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -32,37 +31,20 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
     try {
       setGeneratingImageForId(idea.id);
       
-      // Generate a more detailed prompt for better image relevance
-      let imagePrompt = "";
+      // Create a detailed prompt based on the content idea
+      let basePrompt = "";
       
-      // Craft a detailed prompt that includes:
-      // 1. Content title and description
-      // 2. Platform-specific requirements
-      // 3. Niche and content type information
-      // 4. Visual style guidance
-      
-      // Extract any key terms from title (first 2-3 words)
-      const keyTerms = idea.title.split(' ').slice(0, 3).join(' ');
-      
-      // Determine if this is video content
-      const isVideoContent = idea.description.toLowerCase().includes('video') || 
-                            idea.description.toLowerCase().includes('film') ||
-                            idea.description.toLowerCase().includes('tutorial') ||
-                            idea.description.toLowerCase().includes('step-by-step');
-      
-      // Build detailed prompt
-      imagePrompt = `${keyTerms} - ${idea.niche} content for ${
+      // Include niche, content type, and platform information for better context
+      basePrompt = `${idea.title} - ${idea.niche} content for ${
         idea.platform === 'both' ? 'Instagram and TikTok' : 
         idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'
-      } as a ${idea.type} ${isVideoContent ? 'video thumbnail' : 'social media post'} with ${
-        idea.type === 'educational' ? 'informative visual elements' : 
-        idea.type === 'entertaining' ? 'attention-grabbing composition' : 
-        'professional presentation'
+      } as a ${idea.type} ${
+        idea.description.toLowerCase().includes('video') ? 'video thumbnail' : 'social media post'
       }`;
       
-      console.log("Generating image with prompt:", imagePrompt);
+      console.log("Generating image with prompt:", basePrompt);
       
-      const generatedImage = await generateImageWithPrompt(imagePrompt);
+      const generatedImage = await generateImageWithPrompt(basePrompt);
       
       setGeneratedImages(prev => ({
         ...prev,

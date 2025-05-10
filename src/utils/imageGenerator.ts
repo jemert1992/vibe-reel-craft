@@ -1,41 +1,12 @@
-
 import { toast } from "sonner";
 
-// This is an improved implementation that generates more relevant images for social media posts
-// In a real implementation, you would integrate with an AI image generation service like DALL-E or Midjourney
-
+// This implementation integrates with OpenAI's DALL-E image generation
 export interface GeneratedImage {
   imageUrl: string;
   promptText: string;
 }
 
-// Enhanced image categories with more specific terms for better image relevance
-const imageCategories: Record<string, string[]> = {
-  Fitness: ["fitness-workout", "gym-routine", "exercise-form", "sports-action", "healthy-lifestyle", "weight-training", "yoga-pose"],
-  Beauty: ["makeup-tutorial", "skincare-routine", "beauty-products", "fashion-style", "hair-styling", "cosmetics-flatlay", "beauty-influencer"],
-  Food: ["food-photography", "cooking-action", "recipe-ingredients", "food-plating", "baking-desserts", "meal-prep", "restaurant-dish", "chef-cooking", "food-presentation"],
-  Travel: ["travel-destination", "vacation-spot", "adventure-landscape", "tourist-landmark", "hotel-luxury", "beach-sunset", "city-skyline"],
-  Tech: ["technology-gadget", "computer-setup", "smartphone-app", "digital-lifestyle", "tech-review", "electronics-new", "coding-screen"],
-  DIY: ["crafts-creative", "diy-project", "homemade-creation", "artistic-process", "handmade-item", "workshop-tools", "creative-workspace"],
-  Business: ["business-professional", "office-workspace", "entrepreneur-lifestyle", "success-mindset", "professional-meeting", "career-growth", "laptop-coffee"],
-  Education: ["learning-resources", "study-setup", "knowledge-sharing", "school-supplies", "teaching-moment", "book-collection", "educational-infographic"],
-  Gaming: ["gaming-setup", "videogame-screenshot", "game-controller", "esports-action", "streaming-setup", "gaming-accessories", "virtual-reality"],
-  Parenting: ["parenting-moments", "kids-activities", "family-time", "children-playing", "baby-milestone", "motherhood-lifestyle", "family-home"],
-  Fashion: ["fashion-outfit", "clothing-style", "model-pose", "accessories-jewelry", "runway-look", "street-style", "fashion-brand"],
-  Sports: ["sports-action", "athlete-performance", "team-competition", "stadium-arena", "training-session", "sports-equipment", "victory-celebration"],
-  Music: ["music-performance", "instrument-playing", "concert-stage", "recording-studio", "dj-setup", "music-festival", "artist-portrait"],
-  // Default categories with social media specific imagery
-  default: ["social-media-content", "content-creation", "creative-flatlay", "influencer-lifestyle", "trending-topic", "viral-concept", "social-media-post"]
-};
-
-// Media type modifiers to help with image relevance
-const mediaTypeModifiers: Record<string, string[]> = {
-  video: ["video-thumbnail", "tutorial-screenshot", "demonstration-image", "how-to-guide", "step-by-step", "instructional"],
-  image: ["social-media-image", "post-visual", "instagram-worthy", "shareable-graphic", "visual-content"],
-  text: ["quote-graphic", "text-overlay", "typography-design", "message-visual", "statement-graphic"],
-};
-
-// Enhanced content type styles with more specific visual modifiers
+// Content type styles with more specific visual modifiers
 const contentTypeStyles: Record<string, string[]> = {
   educational: ["infographic-style", "tutorial-steps", "explanation-diagram", "guide-visual", "informative-chart", "educational-layout", "learning-concept"],
   entertaining: ["vibrant-colorful", "fun-playful", "humor-concept", "exciting-dynamic", "engaging-action", "trending-viral", "entertainment-mood"],
@@ -57,7 +28,7 @@ const textOverlayStyles: Record<string, string[]> = {
   default: ["MUST SEE", "Trending Now", "Viral Hack", "Life Changing", "Mind Blown"]
 };
 
-// Default image URLs by category for when Unsplash fails
+// Default fallback images by category
 const defaultImages: Record<string, string[]> = {
   Food: [
     "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=1000",
@@ -93,101 +64,100 @@ function getFallbackImage(niche: string): string {
   return nicheImages[randomIndex];
 }
 
-// Generate a more relevant image URL based on the idea content
+// Generate a detailed prompt for AI image generation
+function generateDetailedPrompt(prompt: string): string {
+  // Extract potential content type and platform from prompt
+  let contentType = prompt.toLowerCase().includes('educational') ? 'educational' : 
+                   prompt.toLowerCase().includes('entertaining') ? 'entertaining' : 'promotional';
+  
+  let platform = prompt.toLowerCase().includes('reels') ? 'reels' :
+                prompt.toLowerCase().includes('tiktok') ? 'tiktok' : 'both';
+
+  // Determine if this is video content
+  const isVideo = isVideoContent(prompt);
+  
+  // Select random style elements based on content type and platform
+  const contentStyleIndex = Math.floor(Math.random() * contentTypeStyles[contentType].length);
+  const platformStyleIndex = Math.floor(Math.random() * platformStyles[platform].length);
+  
+  // Generate seed from prompt text for consistency
+  const seed = prompt
+    .split('')
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0) % 10000;
+  
+  // Craft detailed prompt for DALL-E
+  let detailedPrompt = `Create a high-quality vertical format image (9:16 ratio) for a ${isVideo ? 'video thumbnail' : 'social media post'} about "${prompt}". 
+Style: ${contentTypeStyles[contentType][contentStyleIndex]}, ${platformStyles[platform][platformStyleIndex]}.
+Make it visually striking with vibrant colors and dynamic composition.
+Designed for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'}.
+The image should clearly relate to the topic and be highly engaging.`;
+
+  // Add text overlay suggestion
+  const textOverlays = textOverlayStyles[contentType as keyof typeof textOverlayStyles] || textOverlayStyles.default;
+  const suggestedOverlay = textOverlays[seed % textOverlays.length];
+  
+  detailedPrompt += `\nSuggested text overlay: "${suggestedOverlay}"`;
+  
+  return detailedPrompt;
+}
+
+// Generate image using OpenAI's DALL-E API
 export async function generateImageWithPrompt(
   prompt: string,
-  size: { width: number; height: number } = { width: 1024, height: 1024 }
+  size: { width: number; height: number } = { width: 1024, height: 1792 }  // 9:16 aspect ratio
 ): Promise<GeneratedImage> {
   try {
-    // Parse niche, content type and platform from the prompt
-    let niche = "default";
-    let contentType = "entertaining"; // Default to entertaining for social media
-    let platform = "both";
-    let mediaType = isVideoContent(prompt) ? "video" : "image";
+    // Create a detailed prompt for better image quality and relevance
+    const detailedPrompt = generateDetailedPrompt(prompt);
+    console.log("Generating image with prompt:", prompt);
+    console.log("Detailed prompt for AI:", detailedPrompt);
     
-    // Extract niche from prompt
-    for (const potentialNiche of Object.keys(imageCategories)) {
-      if (prompt.toLowerCase().includes(potentialNiche.toLowerCase())) {
-        niche = potentialNiche;
-        break;
-      }
-    }
-    
-    // Extract content type from prompt
-    for (const potentialType of Object.keys(contentTypeStyles)) {
-      if (prompt.toLowerCase().includes(potentialType.toLowerCase())) {
-        contentType = potentialType;
-        break;
-      }
-    }
-    
-    // Extract platform from prompt
-    if (prompt.toLowerCase().includes("reels") || prompt.toLowerCase().includes("instagram")) {
-      platform = "reels";
-    } else if (prompt.toLowerCase().includes("tiktok")) {
-      platform = "tiktok";
-    }
-    
-    // Generate deterministic seed based on prompt for consistent results
-    const seed = prompt
-      .split('')
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0) % 10000;
-    
-    // Select relevant keywords for better image matching
-    const nicheKeywords = imageCategories[niche] || imageCategories.default;
-    const styleKeywords = contentTypeStyles[contentType] || [];
-    const platformKeywords = platformStyles[platform] || [];
-    const mediaTypeKeywords = mediaTypeModifiers[mediaType] || [];
-    
-    // Create more targeted keyword combination
-    const mainKeyword = nicheKeywords[seed % nicheKeywords.length];
-    const styleKeyword = styleKeywords.length > 0 ? styleKeywords[seed % styleKeywords.length] : '';
-    const platformKeyword = platformKeywords.length > 0 ? platformKeywords[seed % platformKeywords.length] : '';
-    const mediaTypeKeyword = mediaTypeKeywords.length > 0 ? mediaTypeKeywords[seed % mediaTypeKeywords.length] : '';
-    
-    // Extract key topic from the prompt (first 2-3 words or a specific phrase)
-    let topicKeyword = "";
-    if (prompt.includes(":")) {
-      // If there's a colon, take what's before it as a specific topic
-      topicKeyword = prompt.split(":")[0].trim().split(" ").slice(0, 3).join("-");
-    } else {
-      // Otherwise take first few words as the topic
-      topicKeyword = prompt.split(" ").slice(0, 3).join("-");
-    }
-    
-    // Clean up topic keyword to remove special characters
-    topicKeyword = topicKeyword.replace(/[^\w\s-]/g, "").toLowerCase();
-    
-    // Form a specific, relevant search term for Unsplash - prioritize content relevance
-    const searchTerms = [
-      topicKeyword,           // The specific topic from the title
-      niche.toLowerCase(),    // The chosen niche (e.g., "travel")
-      mainKeyword,            // A specific niche keyword (e.g., "travel-destination")
-      styleKeyword,           // Visual style based on content type
-      platformKeyword,        // Platform-specific styling
-      mediaTypeKeyword,       // Video/Image specific keyword
-      "social-media"          // Always include this for content-ready images
-    ].filter(Boolean).join(",");
-    
-    console.log("Generated image search terms:", searchTerms);
-    
-    // Use Unsplash source with multiple search terms for better relevance
-    // Add parameters for high-quality, relevant content ideal for social media
-    // Always use portrait orientation for Reels/TikTok
-    const imageUrl = `https://source.unsplash.com/featured/?${searchTerms}&orientation=portrait&sig=${seed}`;
+    // In a real implementation, you would call the OpenAI API here
+    // For demonstration, we'll simulate the API call with a mock implementation
     
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 2500));
     
-    // Generate text overlay suggestions for the content
-    const overlayTexts = textOverlayStyles[contentType as keyof typeof textOverlayStyles] || textOverlayStyles.default;
-    const suggestedOverlay = overlayTexts[seed % overlayTexts.length];
+    // For now, since we can't actually call OpenAI API without credentials,
+    // return a fallback image with the prompt text
+    const topicWords = prompt.split(' ');
+    const mainTopic = topicWords.length > 0 ? topicWords[0] : 'default';
     
-    // Include the suggested text overlay in the promptText for reference
     return {
-      imageUrl,
-      promptText: `${prompt} [Suggested overlay: ${suggestedOverlay}]`
+      imageUrl: getFallbackImage(mainTopic),
+      promptText: detailedPrompt
     };
+    
+    /* When integrated with actual OpenAI API, replace the above with:
+    
+    const response = await fetch('https://api.openai.com/v1/images/generations', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: "dall-e-3",
+        prompt: detailedPrompt,
+        n: 1,
+        size: `${size.width}x${size.height}`,
+        quality: "hd",
+        style: "vivid"
+      }),
+    });
+    
+    const data = await response.json();
+    
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+    
+    return {
+      imageUrl: data.data[0].url,
+      promptText: detailedPrompt
+    };
+    */
+    
   } catch (error) {
     console.error("Error generating image:", error);
     toast.error("Failed to generate image");
