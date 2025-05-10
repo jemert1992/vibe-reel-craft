@@ -242,7 +242,7 @@ export function generateContentIdeas(
     const captionIndex = Math.floor(Math.random() * captionArray.length);
     const caption = captionArray[captionIndex].replace(/{niche}/g, niche);
     
-    console.log(`Generated content for custom niche "${niche}":`, { title, selectedType, caption });
+    console.log(`Generated content for niche "${niche}":`, { title, selectedType, caption });
     
     // Add the content idea to the array
     ideas.push({
