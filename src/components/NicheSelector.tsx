@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { niches } from '@/data/niches';
+import { toast } from 'sonner';
 
 interface NicheSelectorProps {
   selectedNiche: string;
@@ -18,6 +19,22 @@ const NicheSelector = ({
   customNiche,
   setCustomNiche
 }: NicheSelectorProps) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleCustomNicheChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    setCustomNiche(e.target.value);
+  };
+
+  const applyCustomNiche = () => {
+    if (customNiche.trim()) {
+      setSelectedNiche(customNiche);
+      toast.success(`Custom niche "${customNiche}" selected!`);
+    } else {
+      toast.error("Please enter a custom niche first");
+    }
+  };
+
   return (
     <Card className="w-full border-2 border-gray-100">
       <CardContent className="pt-6">
@@ -46,22 +63,23 @@ const NicheSelector = ({
             <Input
               id="custom-niche"
               placeholder="E.g. Sustainable Fashion"
-              value={customNiche}
-              onChange={(e) => setCustomNiche(e.target.value)}
+              value={inputValue}
+              onChange={handleCustomNicheChange}
               className="flex-1"
             />
             <Button
               variant="outline"
               className="border-social-purple text-social-purple hover:bg-social-light-purple/20"
-              onClick={() => {
-                if (customNiche.trim()) {
-                  setSelectedNiche(customNiche);
-                }
-              }}
+              onClick={applyCustomNiche}
             >
               Use Custom
             </Button>
           </div>
+          {selectedNiche === customNiche && customNiche !== '' && (
+            <p className="mt-2 text-sm text-social-purple">
+              Using custom niche: {customNiche}
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>

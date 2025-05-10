@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { ContentIdea, ContentType, Platform } from "@/types/content";
 import Header from "@/components/Header";
@@ -10,6 +11,7 @@ import Footer from "@/components/Footer";
 import { generateContentIdeas } from "@/utils/contentGenerator";
 import { loadIdeasFromLocalStorage, saveIdeasToLocalStorage } from "@/utils/storage";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
 
 const Index = () => {
   const [selectedNiche, setSelectedNiche] = useState<string>("");
@@ -28,7 +30,10 @@ const Index = () => {
   }, []);
 
   const handleGenerate = () => {
-    if (!selectedNiche) return;
+    if (!selectedNiche) {
+      toast.error("Please select a niche first");
+      return;
+    }
     
     setLoading(true);
     
@@ -45,12 +50,14 @@ const Index = () => {
     const updatedSavedIdeas = [...savedIdeas, idea];
     setSavedIdeas(updatedSavedIdeas);
     saveIdeasToLocalStorage(updatedSavedIdeas);
+    toast.success("Idea saved successfully!");
   };
 
   const handleRemoveIdea = (idea: ContentIdea) => {
     const updatedSavedIdeas = savedIdeas.filter((savedIdea) => savedIdea.id !== idea.id);
     setSavedIdeas(updatedSavedIdeas);
     saveIdeasToLocalStorage(updatedSavedIdeas);
+    toast.success("Idea removed successfully!");
   };
 
   return (
