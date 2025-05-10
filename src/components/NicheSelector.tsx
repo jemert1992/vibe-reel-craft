@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -20,16 +20,25 @@ const NicheSelector = ({
   setCustomNiche
 }: NicheSelectorProps) => {
   const [inputValue, setInputValue] = useState('');
+  
+  // Synchronize inputValue with customNiche
+  useEffect(() => {
+    if (customNiche) {
+      setInputValue(customNiche);
+    }
+  }, [customNiche]);
 
   const handleCustomNicheChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    setCustomNiche(e.target.value);
+    const value = e.target.value;
+    setInputValue(value);
+    setCustomNiche(value);
   };
 
   const applyCustomNiche = () => {
     if (customNiche.trim()) {
-      setSelectedNiche(customNiche);
+      setSelectedNiche(customNiche.trim());
       toast.success(`Custom niche "${customNiche}" selected!`);
+      console.log("Custom niche selected:", customNiche);
     } else {
       toast.error("Please enter a custom niche first");
     }

@@ -37,10 +37,13 @@ const Index = () => {
     
     setLoading(true);
     
-    // Fixed the order of parameters - platform is specified as 'both' (default)
-    // as the third parameter, and count is moved to the fourth parameter
+    // Make sure we're passing the correct selected niche to the content generator
+    // whether it's from the predefined list or custom
     setTimeout(() => {
-      const newIdeas = generateContentIdeas(selectedNiche, contentType, 'both', count);
+      const nicheToUse = selectedNiche.trim();
+      console.log("Generating content for niche:", nicheToUse);
+      const newIdeas = generateContentIdeas(nicheToUse, contentType, 'both', count);
+      console.log("Generated ideas:", newIdeas);
       setIdeas(newIdeas);
       setLoading(false);
     }, 1500);

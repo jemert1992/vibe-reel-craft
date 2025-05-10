@@ -13,6 +13,8 @@ export function generateDetailedPrompt(promptData: {
 }): string {
   const { basePrompt, contentType = 'default', platform = 'both', textOverlay, imagePrompt } = promptData;
   
+  console.log("Generating prompt for:", {basePrompt, contentType, platform});
+  
   // Determine if this is video content
   const isVideo = isVideoContent(basePrompt);
   
