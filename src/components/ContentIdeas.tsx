@@ -35,11 +35,30 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
       // Generate a more detailed prompt for better image relevance
       let imagePrompt = "";
       
-      // Format: "Title - Description for [Platform] as [ContentType] post about [Niche]"
-      imagePrompt = `${idea.title} - ${idea.niche} content for ${
+      // Craft a detailed prompt that includes:
+      // 1. Content title and description
+      // 2. Platform-specific requirements
+      // 3. Niche and content type information
+      // 4. Visual style guidance
+      
+      // Extract any key terms from title (first 2-3 words)
+      const keyTerms = idea.title.split(' ').slice(0, 3).join(' ');
+      
+      // Determine if this is video content
+      const isVideoContent = idea.description.toLowerCase().includes('video') || 
+                            idea.description.toLowerCase().includes('film') ||
+                            idea.description.toLowerCase().includes('tutorial') ||
+                            idea.description.toLowerCase().includes('step-by-step');
+      
+      // Build detailed prompt
+      imagePrompt = `${keyTerms} - ${idea.niche} content for ${
         idea.platform === 'both' ? 'Instagram and TikTok' : 
         idea.platform === 'reels' ? 'Instagram Reels' : 'TikTok'
-      } as a ${idea.type} post`;
+      } as a ${idea.type} ${isVideoContent ? 'video thumbnail' : 'social media post'} with ${
+        idea.type === 'educational' ? 'informative visual elements' : 
+        idea.type === 'entertaining' ? 'attention-grabbing composition' : 
+        'professional presentation'
+      }`;
       
       console.log("Generating image with prompt:", imagePrompt);
       

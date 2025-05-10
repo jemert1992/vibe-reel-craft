@@ -21,6 +21,9 @@ const imageCategories: Record<string, string[]> = {
   Education: ["learning-resources", "study-setup", "knowledge-sharing", "school-supplies", "teaching-moment", "book-collection", "educational-infographic"],
   Gaming: ["gaming-setup", "videogame-screenshot", "game-controller", "esports-action", "streaming-setup", "gaming-accessories", "virtual-reality"],
   Parenting: ["parenting-moments", "kids-activities", "family-time", "children-playing", "baby-milestone", "motherhood-lifestyle", "family-home"],
+  Fashion: ["fashion-outfit", "clothing-style", "model-pose", "accessories-jewelry", "runway-look", "street-style", "fashion-brand"],
+  Sports: ["sports-action", "athlete-performance", "team-competition", "stadium-arena", "training-session", "sports-equipment", "victory-celebration"],
+  Music: ["music-performance", "instrument-playing", "concert-stage", "recording-studio", "dj-setup", "music-festival", "artist-portrait"],
   // Default categories with social media specific imagery
   default: ["social-media-content", "content-creation", "creative-flatlay", "influencer-lifestyle", "trending-topic", "viral-concept", "social-media-post"]
 };
@@ -46,12 +49,28 @@ const platformStyles: Record<string, string[]> = {
   both: ["social-media-ready", "cross-platform", "viral-potential", "shareable-content", "engagement-focused"]
 };
 
+// Text overlay styles for different content types
+const textOverlayStyles: Record<string, string[]> = {
+  educational: ["Learn This!", "5 Tips You Need!", "Did You Know?", "THIS CHANGES EVERYTHING", "Secret Technique"],
+  entertaining: ["WAIT FOR IT", "Watch This!", "You Won't Believe", "I Was Shocked!", "This Actually Works"],
+  promotional: ["NEW DROP", "Limited Time Only!", "Exclusive Offer", "Don't Miss Out!", "Game Changer"],
+  default: ["MUST SEE", "Trending Now", "Viral Hack", "Life Changing", "Mind Blown"]
+};
+
 // Default image URLs by category for when Unsplash fails
 const defaultImages: Record<string, string[]> = {
   Food: [
     "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=1000",
     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=1000",
     "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?auto=format&fit=crop&q=80&w=1000"
+  ],
+  Travel: [
+    "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1500835556837-99ac94a94552?auto=format&fit=crop&q=80&w=1000"
+  ],
+  Fitness: [
+    "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1000",
+    "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1000"
   ],
   // Add more categories as needed
   default: [
@@ -63,7 +82,7 @@ const defaultImages: Record<string, string[]> = {
 
 // Check if the prompt contains video-related keywords
 function isVideoContent(prompt: string): boolean {
-  const videoKeywords = ['video', 'film', 'record', 'shoot', 'tutorial', 'step-by-step', 'how to'];
+  const videoKeywords = ['video', 'film', 'record', 'shoot', 'tutorial', 'step-by-step', 'how to', 'guide', 'watch', 'series'];
   return videoKeywords.some(keyword => prompt.toLowerCase().includes(keyword));
 }
 
@@ -139,33 +158,44 @@ export async function generateImageWithPrompt(
     // Clean up topic keyword to remove special characters
     topicKeyword = topicKeyword.replace(/[^\w\s-]/g, "").toLowerCase();
     
-    // Form a specific, relevant search term for Unsplash
+    // Form a specific, relevant search term for Unsplash - prioritize content relevance
     const searchTerms = [
-      topicKeyword,
-      mainKeyword,
-      styleKeyword,
-      platformKeyword,
-      mediaTypeKeyword,
-      niche.toLowerCase()
+      topicKeyword,           // The specific topic from the title
+      niche.toLowerCase(),    // The chosen niche (e.g., "travel")
+      mainKeyword,            // A specific niche keyword (e.g., "travel-destination")
+      styleKeyword,           // Visual style based on content type
+      platformKeyword,        // Platform-specific styling
+      mediaTypeKeyword,       // Video/Image specific keyword
+      "social-media"          // Always include this for content-ready images
     ].filter(Boolean).join(",");
     
     console.log("Generated image search terms:", searchTerms);
     
     // Use Unsplash source with multiple search terms for better relevance
     // Add parameters for high-quality, relevant content ideal for social media
+    // Always use portrait orientation for Reels/TikTok
     const imageUrl = `https://source.unsplash.com/featured/?${searchTerms}&orientation=portrait&sig=${seed}`;
     
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1500));
     
+    // Generate text overlay suggestions for the content
+    const overlayTexts = textOverlayStyles[contentType as keyof typeof textOverlayStyles] || textOverlayStyles.default;
+    const suggestedOverlay = overlayTexts[seed % overlayTexts.length];
+    
+    // Include the suggested text overlay in the promptText for reference
     return {
       imageUrl,
-      promptText: prompt
+      promptText: `${prompt} [Suggested overlay: ${suggestedOverlay}]`
     };
   } catch (error) {
     console.error("Error generating image:", error);
     toast.error("Failed to generate image");
-    throw error;
+    
+    // Return a fallback image if generation fails
+    return {
+      imageUrl: getFallbackImage(prompt.split(' ')[0] || "default"),
+      promptText: prompt
+    };
   }
 }
-
