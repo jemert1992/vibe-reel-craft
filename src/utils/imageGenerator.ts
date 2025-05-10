@@ -11,8 +11,11 @@ export interface GeneratedImage {
 // API key for OpenAI
 const OPENAI_API_KEY = "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";
 
+// Define the possible content type values to match the ContentType type
+type StyleContentType = ContentType | 'all' | 'default';
+
 // Content type styles with more specific visual modifiers
-const contentTypeStyles: Record<ContentType | string, string[]> = {
+const contentTypeStyles: Record<StyleContentType, string[]> = {
   educational: [
     "infographic-style with clear numbered points", 
     "step-by-step visual guide with arrows", 
@@ -43,11 +46,21 @@ const contentTypeStyles: Record<ContentType | string, string[]> = {
     "engaging scene that communicates the core message",
     "striking visual that captures attention immediately",
     "professional quality image with versatile appeal"
+  ],
+  default: [
+    "versatile composition with clear subject focus",
+    "balanced visual with informative elements",
+    "engaging scene that communicates the core message",
+    "striking visual that captures attention immediately",
+    "professional quality image with versatile appeal"
   ]
 };
 
+// Define the possible platform values to match the Platform type
+type StylePlatform = Platform | 'default';
+
 // Social media platform specific styling
-const platformStyles: Record<Platform | string, string[]> = {
+const platformStyles: Record<StylePlatform, string[]> = {
   reels: [
     "vertical 9:16 format optimized for Instagram", 
     "clean aesthetic with soft shadows", 
@@ -68,11 +81,18 @@ const platformStyles: Record<Platform | string, string[]> = {
     "trending visual style with broad appeal", 
     "attention-grabbing but polished composition",
     "cross-platform optimized lighting and contrast"
+  ],
+  default: [
+    "balanced aesthetic that works across platforms", 
+    "universal vertical format with central focus", 
+    "trending visual style with broad appeal", 
+    "attention-grabbing but polished composition",
+    "cross-platform optimized lighting and contrast"
   ]
 };
 
 // Text overlay styles for different content types
-const textOverlayStyles: Record<ContentType | string, string[]> = {
+const textOverlayStyles: Record<StyleContentType, string[]> = {
   educational: ["Learn This!", "5 Tips You Need!", "Did You Know?", "THIS CHANGES EVERYTHING", "Secret Technique"],
   entertaining: ["WAIT FOR IT", "Watch This!", "You Won't Believe", "I Was Shocked!", "This Actually Works"],
   promotional: ["NEW DROP", "Limited Time Only!", "Exclusive Offer", "Don't Miss Out!", "Game Changer"],
@@ -95,7 +115,6 @@ const defaultImages: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1000",
     "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=1000"
   ],
-  // Add more categories as needed
   default: [
     "https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&q=80&w=1000",
     "https://images.unsplash.com/photo-1534531173927-aeb928d54385?auto=format&fit=crop&q=80&w=1000",
@@ -129,22 +148,20 @@ function generateDetailedPrompt(promptData: {
   // Determine if this is video content
   const isVideo = isVideoContent(basePrompt);
   
-  // Select specific style elements based on content type and platform
-  // Ensure we have valid content type and platform lookups with fallbacks
-  const contentTypeKey = contentType as ContentType | string;
-  const platformKey = platform as Platform | string;
+  // Map the input content type to our StyleContentType union
+  const contentTypeKey = (contentType as StyleContentType) || 'default';
+  const platformKey = (platform as StylePlatform) || 'default';
   
-  // Get style arrays with fallbacks to prevent "never" type errors
-  const contentStyleArray = contentTypeStyles[contentTypeKey] || contentTypeStyles.all || [];
-  const platformStyleArray = platformStyles[platformKey] || platformStyles.both || [];
+  // Safely get style arrays with proper type checking
+  const contentStyles = contentTypeStyles[contentTypeKey] || contentTypeStyles.default;
+  const platformStyles = platformStyles[platformKey] || platformStyles.default;
   
-  // Safely get random styles with bounds checking
-  const contentStyleIndex = Math.floor(Math.random() * contentStyleArray.length);
-  const platformStyleIndex = Math.floor(Math.random() * platformStyleArray.length);
+  // Safely get random styles
+  const contentStyleIndex = Math.floor(Math.random() * contentStyles.length);
+  const platformStyleIndex = Math.floor(Math.random() * platformStyles.length);
   
-  // Use array access with fallbacks to prevent errors
-  const contentStyleValue = contentStyleArray[contentStyleIndex] || "visually appealing";
-  const platformStyleValue = platformStyleArray[platformStyleIndex] || "social-media-ready";
+  const contentStyleValue = contentStyles[contentStyleIndex] || "visually appealing";
+  const platformStyleValue = platformStyles[platformStyleIndex] || "social-media-ready";
   
   // Parse the base prompt to extract key visual concepts
   const keywords = basePrompt.toLowerCase().match(/before|after|comparison|vs|versus|split|tutorial|how to|top \d+|review|showcase/g) || [];
@@ -179,10 +196,10 @@ DO NOT include any text in the image itself.`;
     detailedPrompt += `\nNote: Image will have this text overlaid separately: "${textOverlay}" (DO NOT include this text in the image itself)`;
   } else {
     // Safely access text overlay styles
-    const textOverlayKey = contentType as ContentType | string;
-    const availableOverlays = textOverlayStyles[textOverlayKey] || textOverlayStyles.default || [];
-    const overlayIndex = seed % availableOverlays.length;
-    const suggestedOverlay = availableOverlays[overlayIndex] || "MUST SEE";
+    const textOverlayKey = (contentType as StyleContentType) || 'default';
+    const overlayStyles = textOverlayStyles[textOverlayKey] || textOverlayStyles.default;
+    const overlayIndex = seed % overlayStyles.length;
+    const suggestedOverlay = overlayStyles[overlayIndex] || "MUST SEE";
     detailedPrompt += `\nNote: Image will have text overlaid separately (DO NOT include text in the image itself)`;
   }
   
