@@ -1,6 +1,5 @@
-
 import { useEffect, useState } from "react";
-import { ContentIdea, ContentType } from "@/types/content";
+import { ContentIdea, ContentType, Platform } from "@/types/content";
 import Header from "@/components/Header";
 import NicheSelector from "@/components/NicheSelector";
 import ContentTypeFilter from "@/components/ContentTypeFilter";
@@ -33,9 +32,10 @@ const Index = () => {
     
     setLoading(true);
     
-    // Simulating API delay
+    // Fixed the order of parameters - platform is specified as 'both' (default)
+    // as the third parameter, and count is moved to the fourth parameter
     setTimeout(() => {
-      const newIdeas = generateContentIdeas(selectedNiche, contentType, count);
+      const newIdeas = generateContentIdeas(selectedNiche, contentType, 'both', count);
       setIdeas(newIdeas);
       setLoading(false);
     }, 1500);
