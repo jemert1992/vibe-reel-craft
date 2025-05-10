@@ -1,21 +1,22 @@
 
 import { ContentIdea } from "@/types/content";
 
-const SAVED_IDEAS_KEY = 'social_media_generator_saved_ideas';
+const STORAGE_KEY = "savedContentIdeas";
 
 export const saveIdeasToLocalStorage = (ideas: ContentIdea[]): void => {
-  localStorage.setItem(SAVED_IDEAS_KEY, JSON.stringify(ideas));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas));
+  } catch (error) {
+    console.error("Error saving ideas to localStorage:", error);
+  }
 };
 
 export const loadIdeasFromLocalStorage = (): ContentIdea[] => {
-  const savedIdeas = localStorage.getItem(SAVED_IDEAS_KEY);
-  if (savedIdeas) {
-    try {
-      return JSON.parse(savedIdeas);
-    } catch (e) {
-      console.error('Error parsing saved ideas:', e);
-      return [];
-    }
+  try {
+    const savedIdeas = localStorage.getItem(STORAGE_KEY);
+    return savedIdeas ? JSON.parse(savedIdeas) : [];
+  } catch (error) {
+    console.error("Error loading ideas from localStorage:", error);
+    return [];
   }
-  return [];
 };

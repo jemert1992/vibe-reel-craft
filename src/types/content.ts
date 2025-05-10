@@ -9,4 +9,8 @@ export interface ContentIdea {
   niche: string;
   type: ContentType;
   platform: Platform;
+  generatedImage?: {
+    imageUrl: string;
+    promptText: string;
+  };
 }
