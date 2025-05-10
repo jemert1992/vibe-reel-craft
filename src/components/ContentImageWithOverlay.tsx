@@ -26,7 +26,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
   onGenerateImage
 }) => {
   const [imageError, setImageError] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(false); // Changed to false by default
   
   // Enhanced video content detection with more keywords
   const isVideoContent = description.toLowerCase().includes('video') || 
@@ -102,7 +102,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
             }}
           />
           
-          {/* Optional text overlay with toggle */}
+          {/* Optional text overlay with toggle - only shown when explicitly enabled */}
           {showOverlay && textOverlay && (
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 flex flex-col justify-between p-4">
               {/* Bold, eye-catching text overlay - Positioned at the top for better visibility */}
@@ -128,7 +128,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
             </div>
           )}
 
-          {/* Toggle overlay button */}
+          {/* Toggle overlay button - only shown when there is a text overlay available */}
           {textOverlay && (
             <button 
               onClick={() => setShowOverlay(prev => !prev)} 
@@ -185,7 +185,7 @@ const ContentImageWithOverlay: React.FC<ContentImageWithOverlayProps> = ({
         )}
       </Button>
       
-      {/* Caption section with improved styling */}
+      {/* Caption section with improved styling and expanded content */}
       {caption && generatedImage && (
         <div className="mt-3 w-full">
           <div className="bg-gray-50 p-3 rounded-md border border-gray-200">

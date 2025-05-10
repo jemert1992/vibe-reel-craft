@@ -1,4 +1,3 @@
-
 import { ContentIdea, ContentType, Platform } from "@/types/content";
 
 // Helper function to generate a random ID
@@ -280,23 +279,29 @@ const generateEnhancedDescription = (title: string, niche: string, type: Content
     return basePrompts[type][Math.floor(Math.random() * basePrompts[type].length)];
   };
   
-  // Generate captions with strong calls to action
+  // Generate captions with strong calls to action and more detailed information
   const generateCaption = (type: ContentType, niche: string, title: string) => {
     const captionTemplates: Record<ContentType, string[]> = {
       educational: [
-        `This simple ${niche.toLowerCase()} tip changed everything for me! Did you already know this? Drop a 💯 if this helped! #${niche}Tips #${niche}Education`,
-        `I wish someone had told me this ${title.toLowerCase()} hack sooner! Save this post—you'll need it later! #${niche}Advice #Learn${niche}`,
-        `The ONE thing about ${niche.toLowerCase()} nobody talks about! Got questions? Ask below and I'll help! #${niche}Secrets #${niche}Hacks`
+        `This simple ${niche.toLowerCase()} tip changed everything for me! I've been using this approach for months and have seen incredible improvements in my results. The key is consistency and attention to detail. Did you already know this? Drop a 💯 if this helped! #${niche}Tips #${niche}Education`,
+        
+        `I wish someone had told me this ${title.toLowerCase()} hack sooner! After struggling for years, I discovered this technique through a professional workshop and it's been a complete game-changer for my ${niche.toLowerCase()} journey. Save this post—you'll need it later! #${niche}Advice #Learn${niche}`,
+        
+        `The ONE thing about ${niche.toLowerCase()} nobody talks about! I spent hours researching this topic and testing different methods before landing on this solution. This approach has helped me improve by at least 40% in just a few weeks. Got questions? Ask below and I'll help! #${niche}Secrets #${niche}Hacks`
       ],
       entertaining: [
-        `Tell me you're obsessed with ${niche.toLowerCase()} without TELLING me! 😂 Tag someone who relates to this! #${niche}Humor #${niche}Life`,
-        `My reaction every single time I ${title.toLowerCase().includes('when') ? title.toLowerCase().replace('when', '') : title.toLowerCase()}! 💀 Who else does this? #Relatable${niche} #${niche}Reality`,
-        `No one prepared me for this part of ${niche.toLowerCase()}! 🤣 What's your most embarrassing ${niche.toLowerCase()} moment? #${niche}Fails #${niche}Comedy`
+        `Tell me you're obsessed with ${niche.toLowerCase()} without TELLING me! 😂 I've been doing this exact thing for years and my friends always call me out on it. It's become such a habit that I don't even realize I'm doing it anymore. Tag someone who relates to this! #${niche}Humor #${niche}Life`,
+        
+        `My reaction every single time I ${title.toLowerCase().includes('when') ? title.toLowerCase().replace('when', '') : title.toLowerCase()}! 💀 The first time this happened to me was three years ago, and somehow I still fall into the same trap every single time. Who else does this? Share your story below! #Relatable${niche} #${niche}Reality`,
+        
+        `No one prepared me for this part of ${niche.toLowerCase()}! 🤣 When I started my ${niche.toLowerCase()} journey, I thought I knew what to expect, but this situation catches me off guard EVERY time. What's your most embarrassing ${niche.toLowerCase()} moment? Let's share our stories! #${niche}Fails #${niche}Comedy`
       ],
       promotional: [
-        `After trying EVERYTHING, this ${niche.toLowerCase()} game-changer has completely transformed my results! Want the details? Drop a 🔥 below! #${niche}MustHave #${niche}Transformation`,
-        `This is the ONE ${niche.toLowerCase()} essential I recommend to EVERYONE! What's your can't-live-without item? Link in bio! #${niche}Essentials #${niche}Products`,
-        `Three weeks using this ${niche.toLowerCase()} method and the results speak for themselves! Questions? I'm answering all in the comments! #${niche}Results #${niche}Solution`
+        `After trying EVERYTHING, this ${niche.toLowerCase()} game-changer has completely transformed my results! I tested over 20 different products and techniques before discovering this solution. Within just two weeks, I noticed significant improvements that none of the alternatives could deliver. Want the details? Drop a 🔥 below! #${niche}MustHave #${niche}Transformation`,
+        
+        `This is the ONE ${niche.toLowerCase()} essential I recommend to EVERYONE! I've been using it consistently for 6 months and have seen dramatic improvements in my results. The quality and effectiveness are unmatched by anything else I've tried in my 5+ years in this field. What's your can't-live-without item? Link in bio! #${niche}Essentials #${niche}Products`,
+        
+        `Three weeks using this ${niche.toLowerCase()} method and the results speak for themselves! I documented my entire journey and the before/after difference is incredible. The key was following the exact process I outline in my guide - any deviations significantly reduced effectiveness. Questions? I'm answering all in the comments! #${niche}Results #${niche}Solution`
       ],
       all: []
     };

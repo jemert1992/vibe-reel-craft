@@ -40,7 +40,6 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
         }`,
         contentType: idea.type,
         platform: idea.platform,
-        textOverlay: idea.textOverlay,
         imagePrompt: idea.imagePrompt
       };
       
@@ -139,25 +138,7 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         </div>
                       </div>
                       
-                      {/* Text overlay section - clearly labeled */}
-                      {idea.textOverlay && (
-                        <div className="mt-3 bg-gray-50 p-2 rounded-md">
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs font-medium text-gray-500">Optional Text Overlay:</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 text-xs"
-                              onClick={() => copyToClipboard(idea.textOverlay || '')}
-                            >
-                              Copy
-                            </Button>
-                          </div>
-                          <p className="text-sm font-bold mt-1">{idea.textOverlay}</p>
-                        </div>
-                      )}
-                      
-                      {/* Image generation section */}
+                      {/* Image generation section - without text overlay by default */}
                       <ContentImageWithOverlay
                         title={idea.title}
                         description={idea.description}
@@ -168,8 +149,8 @@ const ContentIdeas = ({ ideas, loading, savedIdeas, onSaveIdea }: ContentIdeasPr
                         onGenerateImage={() => handleGenerateImage(idea)}
                       />
                       
-                      {/* Caption section - labeled as "Caption for Posting" */}
-                      {idea.caption && !generatedImages[idea.id] && (
+                      {/* Caption section - always shown with expanded content */}
+                      {idea.caption && (
                         <div className="mt-3 bg-gray-50 p-3 rounded-md border border-gray-200">
                           <div className="flex justify-between items-center">
                             <h4 className="text-xs font-medium text-gray-500">Caption for Posting:</h4>

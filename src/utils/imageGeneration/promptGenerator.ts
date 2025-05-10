@@ -64,7 +64,7 @@ export function generateDetailedPrompt(promptData: {
   const creativeStyleIndex = seed % creativeVisualStyles.length;
   const creativeStyle = creativeVisualStyles[creativeStyleIndex];
   
-  // Enhanced prompt for more visually creative content
+  // Enhanced prompt for more visually creative content - removed text overlay mention
   let detailedPrompt = imagePrompt || `${creativeStyle} Create a high-quality vertical format image (9:16 ratio) for ${platform === 'both' ? 'Instagram Reels and TikTok' : platform === 'reels' ? 'Instagram Reels' : 'TikTok'} about "${basePrompt}".
 Style: ${contentStyleValue}, ${platformStyleValue}.
 The image should have ONE clear visual subject with unexpected creative elements, vibrant colors, and artistic composition.
@@ -73,16 +73,5 @@ Incorporate surreal or fantastical elements that relate to the concept in an une
 The image should stand alone as a compelling visual story without requiring text explanation.
 DO NOT include any text in the image itself.`;
 
-  // Add text overlay suggestion for guidance but not inclusion in the image
-  if (textOverlay) {
-    detailedPrompt += `\nNote: Image will have this text overlaid separately: "${textOverlay}" (DO NOT include this text in the image itself)`;
-  } else {
-    // Safely access text overlay styles
-    const textOverlayArray = textOverlayStyles[contentTypeKey] || textOverlayStyles.default;
-    const overlayIndex = seed % textOverlayArray.length;
-    const suggestedOverlay = textOverlayArray[overlayIndex] || "MUST SEE";
-    detailedPrompt += `\nNote: Image will have text overlaid separately (DO NOT include text in the image itself)`;
-  }
-  
   return detailedPrompt;
 }
