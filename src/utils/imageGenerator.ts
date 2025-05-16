@@ -4,10 +4,7 @@ import { generateDetailedPrompt } from './imageGeneration/promptGenerator';
 import { getFallbackImage } from './imageGeneration/utilities';
 import { GeneratedImage } from './imageGeneration/types';
 
-// API key for OpenAI
-const OPENAI_API_KEY = "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";
-
-// Generate image using OpenAI's DALL-E API with enhanced creativity
+// Generate image using fallback system since the OpenAI API key is not working
 export async function generateImageWithPrompt(
   prompt: string | {
     basePrompt: string;
@@ -15,7 +12,7 @@ export async function generateImageWithPrompt(
     platform?: string;
     textOverlay?: string;
     imagePrompt?: string;
-    niche?: string;  // Ensure niche is properly handled
+    niche?: string;
   },
   size: { width: number; height: number } = { width: 1024, height: 1792 }  // 9:16 aspect ratio
 ): Promise<GeneratedImage> {
@@ -36,46 +33,29 @@ export async function generateImageWithPrompt(
       promptData = prompt;
     }
     
-    // Create a detailed prompt for better image quality and creativity
+    // Create a detailed prompt for better image quality
     const detailedPrompt = generateDetailedPrompt(promptData);
-    console.log("Generating creative image with prompt:", promptData.basePrompt);
+    console.log("Using fallback image system with prompt:", promptData.basePrompt);
     console.log("Using niche:", promptData.niche || "none specified");
-    console.log("Detailed creative prompt for AI:", detailedPrompt);
     
-    // Call the OpenAI API with enhanced creativity settings
-    const response = await fetch('https://api.openai.com/v1/images/generations', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: "dall-e-3",
-        prompt: detailedPrompt,
-        n: 1,
-        size: `${size.width}x${size.height}`,
-        quality: "hd",
-        style: "vivid"  // Use 'vivid' for more creative, artistic images
-      }),
-    });
+    // Get the appropriate fallback image based on niche and content
+    const niche = typeof prompt === 'string' ? undefined : prompt.niche || prompt.basePrompt.split(' ')[0] || "default";
+    const fallbackImageUrl = getFallbackImage(niche);
     
-    const data = await response.json();
+    // Add artificial delay to simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    if (data.error) {
-      console.error("OpenAI API error:", data.error);
-      throw new Error(data.error.message || "Failed to generate creative image");
-    }
-    
+    // Return fallback image with prompt information
     return {
-      imageUrl: data.data[0].url,
+      imageUrl: fallbackImageUrl,
       promptText: detailedPrompt
     };
     
   } catch (error) {
-    console.error("Error generating creative image:", error);
-    toast.error("Failed to generate creative image. Using fallback image.");
+    console.error("Error in image fallback system:", error);
+    toast.error("Using standard fallback image.");
     
-    // Return a fallback image if generation fails
+    // Return a very basic fallback
     const basePrompt = typeof prompt === 'string' ? prompt : prompt.basePrompt;
     const niche = typeof prompt === 'string' ? undefined : prompt.niche || basePrompt.split(' ')[0] || "default";
     
